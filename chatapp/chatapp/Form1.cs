@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -18,7 +19,8 @@ namespace chatapp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            throw new System.NotImplementedException();
+            File.WriteAllText("WriteText.txt", "zuig het");
+            listChat.Items.AddRange(new object[]{"Rider","is","beter"}); 
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
