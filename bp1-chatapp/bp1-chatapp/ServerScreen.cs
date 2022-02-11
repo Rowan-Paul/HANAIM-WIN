@@ -11,9 +11,10 @@ namespace bp1_chatapp
     public partial class ServerScreen : Form
     {
         private TcpClient _client;
-        private TcpListener _tcpListener;
+        private TcpListener _server;
         private List<TcpClient> clientsConnected = new List<TcpClient>();
-        
+        private NetworkStream _networkStream;
+
         public ServerScreen()
         {
             InitializeComponent();
@@ -23,42 +24,44 @@ namespace bp1_chatapp
         {
             try
             {
-                _tcpListener = new TcpListener(IPAddress.Parse(ip), port);
-                _tcpListener.Start();
-            
+                _server = new TcpListener(IPAddress.Parse(ip), port);
+                _server.Start();
+
                 while (true)
                 {
-                    _client = await _tcpListener.AcceptTcpClientAsync();
+                    _client = await _server.AcceptTcpClientAsync();
 
                     clientsConnected.Add(_client);
-                    await Task.Run(() => MessageReceiver(_client));
+                    await Task.Run(async () =>
+                    {
+                        byte[] buffer = new byte[256];
+                        _networkStream = _client.GetStream();
+
+                        while (_networkStream.CanRead)
+                        {
+                            int bytes = await _networkStream.ReadAsync(buffer, 0, 256);
+                            string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+
+                            if (_networkStream.CanRead)
+                            {
+                                byte[] serverMessageByteArray = Encoding.ASCII.GetBytes(message);
+                                await _networkStream.WriteAsync(serverMessageByteArray, 0,
+                                    serverMessageByteArray.Length);
+
+                                Console.WriteLine("Server received: {0}", message);
+                                chatBox.Items.Add(message);
+                            }
+                        }
+                    });
                 }
             }
-            catch (Exception e)
+            catch (SocketException e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("SocketException: {0}", e);
             }
-        }
-        
-        private async void MessageReceiver(TcpClient client)
-        {
-            try
+            finally
             {
-                byte[] buffer = new byte[256];
-                NetworkStream networkStream = client.GetStream();
-
-                while (networkStream.CanRead)
-                {
-                    int bytes = await networkStream.ReadAsync(buffer, 0, 256);
-                    string message = Encoding.ASCII.GetString(buffer, 0, bytes);
-
-                    Console.Write("Server received: {0}",message);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
+                _server.Stop();
             }
         }
 

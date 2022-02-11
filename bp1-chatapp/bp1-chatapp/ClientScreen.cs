@@ -10,7 +10,7 @@ namespace bp1_chatapp
     {
         private TcpClient _client;
         private NetworkStream _networkStream;
-        
+
         public ClientScreen()
         {
             InitializeComponent();
@@ -22,37 +22,45 @@ namespace bp1_chatapp
             {
                 _client = new TcpClient();
                 await _client.ConnectAsync(ip, port);
-      
+
                 _networkStream = _client.GetStream();
 
-                await Task.Run(MessageReceiver);
+                await Task.Run(async () =>
+                {
+                    byte[] buffer = new byte[1024];
+                    NetworkStream networkStream = _client.GetStream();
+
+                    while (networkStream.CanRead)
+                    {
+                        int bytes = await networkStream.ReadAsync(buffer, 0, 256);
+                        string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+
+                        Console.WriteLine("Server received: {0}", message);
+                        chatBox.Items.Add(message);
+                    }
+
+                    networkStream.Close();
+                });
             }
             catch (SocketException e)
             {
                 Console.WriteLine(e);
             }
-        }
-
-        private async void MessageReceiver()
-        {
-            byte[] buffer = new byte[1024];
-            NetworkStream networkStream = _client.GetStream();
-
-            while (networkStream.CanRead)
+            finally
             {
-                byte[] messageByteArray = Encoding.ASCII.GetBytes("Hi sjaak");
-                await _networkStream.WriteAsync(messageByteArray, 0, messageByteArray.Length);
-
-                int bytes = await networkStream.ReadAsync(buffer, 0, 1024);
-                var message = Encoding.ASCII.GetString(buffer, 0, bytes);
-    
-                Console.WriteLine("Client received: {0}", message);
+                _client.Close();
             }
-      
-            networkStream.Close();
-            _client.Close();
         }
-        
+
+        private void sendMessage(String data)
+        {
+            if (!_networkStream.CanWrite) return;
+            byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+            _networkStream.Write(msg, 0, msg.Length);
+
+            Console.WriteLine("Client sent: {0}", data);
+        }
+
         private void connectButton_Click(object sender, EventArgs e)
         {
             ipInput.Enabled = false;
@@ -61,6 +69,11 @@ namespace bp1_chatapp
             connectButton.Text = "Disconnect";
 
             ConnectServer(ipInput.Text, 3000);
+        }
+
+        private void sendButton_Click(object sender, EventArgs e)
+        {
+            sendMessage(messagesInput.Text);
         }
     }
 }
