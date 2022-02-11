@@ -35,13 +35,17 @@ namespace bp1_chatapp
             this.messagesInput = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
             this.connectGroupBox = new System.Windows.Forms.GroupBox();
-            this.ipLabel = new System.Windows.Forms.Label();
-            this.ipInput = new System.Windows.Forms.TextBox();
             this.connectButton = new System.Windows.Forms.Button();
+            this.ipInput = new System.Windows.Forms.TextBox();
+            this.ipLabel = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.connectGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listBox1
+            // chatBox
             // 
             this.chatBox.FormattingEnabled = true;
             this.chatBox.ItemHeight = 16;
@@ -50,14 +54,14 @@ namespace bp1_chatapp
             this.chatBox.Size = new System.Drawing.Size(568, 388);
             this.chatBox.TabIndex = 0;
             // 
-            // textBox1
+            // messagesInput
             // 
             this.messagesInput.Location = new System.Drawing.Point(12, 416);
             this.messagesInput.Name = "messagesInput";
             this.messagesInput.Size = new System.Drawing.Size(492, 22);
             this.messagesInput.TabIndex = 1;
             // 
-            // button1
+            // sendButton
             // 
             this.sendButton.Location = new System.Drawing.Point(510, 415);
             this.sendButton.Name = "sendButton";
@@ -66,41 +70,75 @@ namespace bp1_chatapp
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // connectGroupBox
             // 
+            this.connectGroupBox.Controls.Add(this.textBox2);
+            this.connectGroupBox.Controls.Add(this.label2);
+            this.connectGroupBox.Controls.Add(this.textBox1);
+            this.connectGroupBox.Controls.Add(this.label1);
             this.connectGroupBox.Controls.Add(this.connectButton);
             this.connectGroupBox.Controls.Add(this.ipInput);
             this.connectGroupBox.Controls.Add(this.ipLabel);
             this.connectGroupBox.Location = new System.Drawing.Point(593, 12);
             this.connectGroupBox.Name = "connectGroupBox";
-            this.connectGroupBox.Size = new System.Drawing.Size(195, 122);
+            this.connectGroupBox.Size = new System.Drawing.Size(195, 206);
             this.connectGroupBox.TabIndex = 3;
             this.connectGroupBox.TabStop = false;
             this.connectGroupBox.Text = "Connect";
             // 
-            // label1
+            // connectButton
             // 
-            this.ipLabel.Location = new System.Drawing.Point(8, 22);
-            this.ipLabel.Name = "ipLabel";
-            this.ipLabel.Size = new System.Drawing.Size(83, 19);
-            this.ipLabel.TabIndex = 0;
-            this.ipLabel.Text = "IP address";
-            // 
-            // textBox2
-            // 
-            this.ipInput.Location = new System.Drawing.Point(8, 44);
-            this.ipInput.Name = "ipInput";
-            this.ipInput.Size = new System.Drawing.Size(179, 22);
-            this.ipInput.TabIndex = 1;
-            // 
-            // button2
-            // 
-            this.connectButton.Location = new System.Drawing.Point(8, 77);
+            this.connectButton.Location = new System.Drawing.Point(6, 162);
             this.connectButton.Name = "connectButton";
             this.connectButton.Size = new System.Drawing.Size(179, 33);
             this.connectButton.TabIndex = 2;
             this.connectButton.Text = "Connect to server";
             this.connectButton.UseVisualStyleBackColor = true;
+            // 
+            // ipInput
+            // 
+            this.ipInput.Location = new System.Drawing.Point(6, 87);
+            this.ipInput.Name = "ipInput";
+            this.ipInput.Size = new System.Drawing.Size(179, 22);
+            this.ipInput.TabIndex = 1;
+            // 
+            // ipLabel
+            // 
+            this.ipLabel.Location = new System.Drawing.Point(6, 65);
+            this.ipLabel.Name = "ipLabel";
+            this.ipLabel.Size = new System.Drawing.Size(83, 19);
+            this.ipLabel.TabIndex = 0;
+            this.ipLabel.Text = "IP address";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(6, 40);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(179, 22);
+            this.textBox1.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(6, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 19);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Username";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(6, 134);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(179, 22);
+            this.textBox2.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(6, 112);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(83, 19);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Port";
             // 
             // ClientScreen
             // 
@@ -118,6 +156,11 @@ namespace bp1_chatapp
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label2;
 
         private System.Windows.Forms.GroupBox connectGroupBox;
         private System.Windows.Forms.Label ipLabel;

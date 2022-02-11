@@ -20,7 +20,13 @@ namespace bp1_chatapp
         private void clientButton_Click(object sender, EventArgs e)
         {
             ClientScreen client = new ClientScreen();
-            client.ShowDialog();
+            client.Show();
+        }
+
+        private void serverButton_Click(object sender, EventArgs e)
+        {
+            ServerScreen server = new ServerScreen();
+            server.Show();
         }
     }
 }

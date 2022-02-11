@@ -51,6 +51,7 @@
             this.serverButton.TabIndex = 1;
             this.serverButton.Text = "Open server";
             this.serverButton.UseVisualStyleBackColor = true;
+            this.serverButton.Click += new System.EventHandler(this.serverButton_Click);
             // 
             // LandingScreen
             // 
