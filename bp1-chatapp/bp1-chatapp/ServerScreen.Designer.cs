@@ -33,17 +33,17 @@ namespace bp1_chatapp
         {
             this.chatBox = new System.Windows.Forms.ListBox();
             this.createServerGroupBox = new System.Windows.Forms.GroupBox();
+            this.ipInput = new System.Windows.Forms.TextBox();
+            this.ipLabel = new System.Windows.Forms.Label();
+            this.portInput = new System.Windows.Forms.TextBox();
+            this.portLabel = new System.Windows.Forms.Label();
             this.startServerButton = new System.Windows.Forms.Button();
             this.bufferInput = new System.Windows.Forms.TextBox();
             this.bufferLabel = new System.Windows.Forms.Label();
-            this.portInput = new System.Windows.Forms.TextBox();
-            this.portLabel = new System.Windows.Forms.Label();
-            this.ipInput = new System.Windows.Forms.TextBox();
-            this.ipLabel = new System.Windows.Forms.Label();
             this.createServerGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listBox1
+            // chatBox
             // 
             this.chatBox.FormattingEnabled = true;
             this.chatBox.ItemHeight = 16;
@@ -52,7 +52,7 @@ namespace bp1_chatapp
             this.chatBox.Size = new System.Drawing.Size(568, 388);
             this.chatBox.TabIndex = 0;
             // 
-            // groupBox1
+            // createServerGroupBox
             // 
             this.createServerGroupBox.Controls.Add(this.ipInput);
             this.createServerGroupBox.Controls.Add(this.ipLabel);
@@ -68,38 +68,29 @@ namespace bp1_chatapp
             this.createServerGroupBox.TabStop = false;
             this.createServerGroupBox.Text = "Start server";
             // 
-            // button1
+            // ipInput
             // 
-            this.startServerButton.Location = new System.Drawing.Point(12, 167);
-            this.startServerButton.Name = "startServerButton";
-            this.startServerButton.Size = new System.Drawing.Size(177, 33);
-            this.startServerButton.TabIndex = 6;
-            this.startServerButton.Text = "Start server";
-            this.startServerButton.UseVisualStyleBackColor = true;
+            this.ipInput.Location = new System.Drawing.Point(12, 49);
+            this.ipInput.Name = "ipInput";
+            this.ipInput.Size = new System.Drawing.Size(177, 22);
+            this.ipInput.TabIndex = 10;
             // 
-            // textBox2
+            // ipLabel
             // 
-            this.bufferInput.Location = new System.Drawing.Point(12, 139);
-            this.bufferInput.Name = "bufferInput";
-            this.bufferInput.Size = new System.Drawing.Size(177, 22);
-            this.bufferInput.TabIndex = 3;
+            this.ipLabel.Location = new System.Drawing.Point(12, 32);
+            this.ipLabel.Name = "ipLabel";
+            this.ipLabel.Size = new System.Drawing.Size(100, 23);
+            this.ipLabel.TabIndex = 9;
+            this.ipLabel.Text = "IP address";
             // 
-            // label2
-            // 
-            this.bufferLabel.Location = new System.Drawing.Point(12, 122);
-            this.bufferLabel.Name = "bufferLabel";
-            this.bufferLabel.Size = new System.Drawing.Size(100, 23);
-            this.bufferLabel.TabIndex = 2;
-            this.bufferLabel.Text = "Buffer size";
-            // 
-            // textBox1
+            // portInput
             // 
             this.portInput.Location = new System.Drawing.Point(12, 94);
             this.portInput.Name = "portInput";
             this.portInput.Size = new System.Drawing.Size(177, 22);
             this.portInput.TabIndex = 8;
             // 
-            // label1
+            // portLabel
             // 
             this.portLabel.Location = new System.Drawing.Point(12, 77);
             this.portLabel.Name = "portLabel";
@@ -107,20 +98,30 @@ namespace bp1_chatapp
             this.portLabel.TabIndex = 7;
             this.portLabel.Text = "Port";
             // 
-            // textBox3
+            // startServerButton
             // 
-            this.ipInput.Location = new System.Drawing.Point(12, 49);
-            this.ipInput.Name = "ipInput";
-            this.ipInput.Size = new System.Drawing.Size(177, 22);
-            this.ipInput.TabIndex = 10;
+            this.startServerButton.Location = new System.Drawing.Point(12, 167);
+            this.startServerButton.Name = "startServerButton";
+            this.startServerButton.Size = new System.Drawing.Size(177, 33);
+            this.startServerButton.TabIndex = 6;
+            this.startServerButton.Text = "Start server";
+            this.startServerButton.UseVisualStyleBackColor = true;
+            this.startServerButton.Click += new System.EventHandler(this.startServerButton_Click);
             // 
-            // label3
+            // bufferInput
             // 
-            this.ipLabel.Location = new System.Drawing.Point(12, 32);
-            this.ipLabel.Name = "ipLabel";
-            this.ipLabel.Size = new System.Drawing.Size(100, 23);
-            this.ipLabel.TabIndex = 9;
-            this.ipLabel.Text = "IP address";
+            this.bufferInput.Location = new System.Drawing.Point(12, 139);
+            this.bufferInput.Name = "bufferInput";
+            this.bufferInput.Size = new System.Drawing.Size(177, 22);
+            this.bufferInput.TabIndex = 3;
+            // 
+            // bufferLabel
+            // 
+            this.bufferLabel.Location = new System.Drawing.Point(12, 122);
+            this.bufferLabel.Name = "bufferLabel";
+            this.bufferLabel.Size = new System.Drawing.Size(100, 23);
+            this.bufferLabel.TabIndex = 2;
+            this.bufferLabel.Text = "Buffer size";
             // 
             // ServerScreen
             // 
