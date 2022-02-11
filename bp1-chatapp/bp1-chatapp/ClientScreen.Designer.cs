@@ -35,6 +35,9 @@ namespace bp1_chatapp
             this.messagesInput = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
             this.connectGroupBox = new System.Windows.Forms.GroupBox();
+            this.bufferSizeLabel = new System.Windows.Forms.Label();
+            this.disconnectButton = new System.Windows.Forms.Button();
+            this.bufferSizeInput = new System.Windows.Forms.TextBox();
             this.portInput = new System.Windows.Forms.TextBox();
             this.portLabel = new System.Windows.Forms.Label();
             this.usernameInput = new System.Windows.Forms.TextBox();
@@ -73,6 +76,9 @@ namespace bp1_chatapp
             // 
             // connectGroupBox
             // 
+            this.connectGroupBox.Controls.Add(this.bufferSizeLabel);
+            this.connectGroupBox.Controls.Add(this.disconnectButton);
+            this.connectGroupBox.Controls.Add(this.bufferSizeInput);
             this.connectGroupBox.Controls.Add(this.portInput);
             this.connectGroupBox.Controls.Add(this.portLabel);
             this.connectGroupBox.Controls.Add(this.usernameInput);
@@ -82,10 +88,34 @@ namespace bp1_chatapp
             this.connectGroupBox.Controls.Add(this.ipLabel);
             this.connectGroupBox.Location = new System.Drawing.Point(593, 12);
             this.connectGroupBox.Name = "connectGroupBox";
-            this.connectGroupBox.Size = new System.Drawing.Size(195, 206);
+            this.connectGroupBox.Size = new System.Drawing.Size(195, 265);
             this.connectGroupBox.TabIndex = 3;
             this.connectGroupBox.TabStop = false;
             this.connectGroupBox.Text = "Connect";
+            // 
+            // label1
+            // 
+            this.bufferSizeLabel.Location = new System.Drawing.Point(6, 163);
+            this.bufferSizeLabel.Name = "bufferSizeLabel";
+            this.bufferSizeLabel.Size = new System.Drawing.Size(100, 15);
+            this.bufferSizeLabel.TabIndex = 9;
+            this.bufferSizeLabel.Text = "Buffer size";
+            // 
+            // disconnectButton
+            // 
+            this.disconnectButton.Location = new System.Drawing.Point(6, 218);
+            this.disconnectButton.Name = "disconnectButton";
+            this.disconnectButton.Size = new System.Drawing.Size(179, 33);
+            this.disconnectButton.TabIndex = 8;
+            this.disconnectButton.Text = "Disconnect";
+            this.disconnectButton.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.bufferSizeInput.Location = new System.Drawing.Point(6, 181);
+            this.bufferSizeInput.Name = "bufferSizeInput";
+            this.bufferSizeInput.Size = new System.Drawing.Size(179, 22);
+            this.bufferSizeInput.TabIndex = 3;
             // 
             // portInput
             // 
@@ -119,10 +149,10 @@ namespace bp1_chatapp
             // 
             // connectButton
             // 
-            this.connectButton.Location = new System.Drawing.Point(6, 162);
+            this.connectButton.Location = new System.Drawing.Point(6, 218);
             this.connectButton.Name = "connectButton";
             this.connectButton.Size = new System.Drawing.Size(179, 33);
-            this.connectButton.TabIndex = 2;
+            this.connectButton.TabIndex = 4;
             this.connectButton.Text = "Connect to server";
             this.connectButton.UseVisualStyleBackColor = true;
             this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
@@ -152,12 +182,18 @@ namespace bp1_chatapp
             this.Controls.Add(this.messagesInput);
             this.Controls.Add(this.chatBox);
             this.Name = "ClientScreen";
-            this.Text = "Rchat";
+            this.Text = "Rchat client";
             this.connectGroupBox.ResumeLayout(false);
             this.connectGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private System.Windows.Forms.Label bufferSizeLabel;
+
+        private System.Windows.Forms.Button disconnectButton;
+
+        private System.Windows.Forms.TextBox bufferSizeInput;
 
         private System.Windows.Forms.TextBox usernameInput;
         private System.Windows.Forms.Label usernameLabel;

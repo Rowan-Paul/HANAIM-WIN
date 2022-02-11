@@ -14,9 +14,11 @@ namespace bp1_chatapp
         public ClientScreen()
         {
             InitializeComponent();
+
+            disconnectButton.Visible = false;
         }
 
-        private async void ConnectServer(String ip, Int32 port)
+        private async void ConnectServer(String ip, Int32 port, int bufferSize)
         {
             try
             {
@@ -27,24 +29,20 @@ namespace bp1_chatapp
 
                 await Task.Run(async () =>
                 {
-                    byte[] buffer = new byte[1024];
-                    NetworkStream networkStream = _client.GetStream();
+                    byte[] buffer = new byte[bufferSize];
 
-                    while (networkStream.CanRead)
+                    while (_networkStream.CanRead)
                     {
-                        int bytes = await networkStream.ReadAsync(buffer, 0, 256);
+                        int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
                         string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
-                        Console.WriteLine("Server received: {0}", message);
                         chatBox.Items.Add(message);
                     }
-
-                    networkStream.Close();
                 });
             }
             catch (SocketException e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine("SocketException Client: {0}",e);
             }
             finally
             {
@@ -52,13 +50,11 @@ namespace bp1_chatapp
             }
         }
 
-        private void sendMessage(String data)
+        private void SendMessage(String data)
         {
             if (!_networkStream.CanWrite) return;
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
             _networkStream.Write(msg, 0, msg.Length);
-
-            Console.WriteLine("Client sent: {0}", data);
         }
 
         private void connectButton_Click(object sender, EventArgs e)
@@ -66,14 +62,22 @@ namespace bp1_chatapp
             ipInput.Enabled = false;
             portInput.Enabled = false;
             usernameInput.Enabled = false;
-            connectButton.Text = "Disconnect";
+            bufferSizeInput.Enabled = false;
+            connectButton.Visible = false;
 
-            ConnectServer(ipInput.Text, 3000);
+            if (int.TryParse(portInput.Text, out var port))
+            {
+                ConnectServer(ipInput.Text, port, 256);
+            }
+            else
+            {
+                Console.WriteLine("Client: Port or buffersize not a number");
+            }
         }
 
         private void sendButton_Click(object sender, EventArgs e)
         {
-            sendMessage(messagesInput.Text);
+            SendMessage(messagesInput.Text);
         }
     }
 }

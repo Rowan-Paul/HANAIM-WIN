@@ -131,7 +131,7 @@ namespace bp1_chatapp
             this.Controls.Add(this.createServerGroupBox);
             this.Controls.Add(this.chatBox);
             this.Name = "ServerScreen";
-            this.Text = "ServerScreen";
+            this.Text = "Rchat server";
             this.createServerGroupBox.ResumeLayout(false);
             this.createServerGroupBox.PerformLayout();
             this.ResumeLayout(false);

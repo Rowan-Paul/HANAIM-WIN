@@ -20,7 +20,7 @@ namespace bp1_chatapp
             InitializeComponent();
         }
 
-        private async void CreateServer(String ip, Int32 port)
+        private async void CreateServer(String ip, Int32 port, int bufferSize)
         {
             try
             {
@@ -34,12 +34,12 @@ namespace bp1_chatapp
                     clientsConnected.Add(_client);
                     await Task.Run(async () =>
                     {
-                        byte[] buffer = new byte[256];
+                        byte[] buffer = new byte[bufferSize];
                         _networkStream = _client.GetStream();
 
                         while (_networkStream.CanRead)
                         {
-                            int bytes = await _networkStream.ReadAsync(buffer, 0, 256);
+                            int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
                             string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
                             if (_networkStream.CanRead)
@@ -48,7 +48,6 @@ namespace bp1_chatapp
                                 await _networkStream.WriteAsync(serverMessageByteArray, 0,
                                     serverMessageByteArray.Length);
 
-                                Console.WriteLine("Server received: {0}", message);
                                 chatBox.Items.Add(message);
                             }
                         }
@@ -57,7 +56,7 @@ namespace bp1_chatapp
             }
             catch (SocketException e)
             {
-                Console.WriteLine("SocketException: {0}", e);
+                Console.WriteLine("SocketException Server: {0}", e);
             }
             finally
             {
@@ -70,9 +69,16 @@ namespace bp1_chatapp
             ipInput.Enabled = false;
             portInput.Enabled = false;
             bufferInput.Enabled = false;
-            startServerButton.Text = "Stop server";
+            startServerButton.Visible = false;
 
-            CreateServer(ipInput.Text, 3000);
+            if (int.TryParse(portInput.Text, out var port) && int.TryParse(bufferInput.Text, out var bufferSize))
+            {
+                CreateServer(ipInput.Text, port, bufferSize);
+            }
+            else
+            {
+                Console.WriteLine("Server: Port or buffersize not a number");
+            }
         }
     }
 }
