@@ -101,6 +101,7 @@ namespace bp1_chatapp
             this.disconnectButton.TabIndex = 4;
             this.disconnectButton.Text = "Disconnect";
             this.disconnectButton.UseVisualStyleBackColor = true;
+            this.disconnectButton.Click += new System.EventHandler(this.disconnectButton_Click);
             // 
             // bufferSizeLabel
             // 

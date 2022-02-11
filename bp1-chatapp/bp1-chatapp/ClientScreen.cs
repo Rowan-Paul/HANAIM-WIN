@@ -42,7 +42,7 @@ namespace bp1_chatapp
             }
             catch (SocketException e)
             {
-                Console.WriteLine("SocketException Client: {0}",e);
+                Console.WriteLine("SocketException Client: {0}", e);
             }
             finally
             {
@@ -79,6 +79,24 @@ namespace bp1_chatapp
         private void sendButton_Click(object sender, EventArgs e)
         {
             SendMessage(messagesInput.Text);
+        }
+
+        private void disconnectButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //TODO: close connection
+                ipInput.Enabled = true;
+                portInput.Enabled = true;
+                usernameInput.Enabled = true;
+                bufferSizeInput.Enabled = true;
+                connectButton.Visible = true;
+                disconnectButton.Visible = false;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Client disconnect: {0}", exception);
+            }
         }
     }
 }
