@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace chatapp.Properties
+namespace bp1_chatapp.Properties
 {
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -45,7 +45,7 @@ namespace chatapp.Properties
                 if ((resourceMan == null))
                 {
                     global::System.Resources.ResourceManager temp =
-                        new global::System.Resources.ResourceManager("chatapp.Properties.Resources",
+                        new global::System.Resources.ResourceManager("bp1_chatapp.Properties.Resources",
                             typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
