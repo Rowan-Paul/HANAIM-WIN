@@ -35,13 +35,13 @@ namespace bp1_chatapp
             this.messagesInput = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
             this.connectGroupBox = new System.Windows.Forms.GroupBox();
+            this.portInput = new System.Windows.Forms.TextBox();
+            this.portLabel = new System.Windows.Forms.Label();
+            this.usernameInput = new System.Windows.Forms.TextBox();
+            this.usernameLabel = new System.Windows.Forms.Label();
             this.connectButton = new System.Windows.Forms.Button();
             this.ipInput = new System.Windows.Forms.TextBox();
             this.ipLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.connectGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,10 +72,10 @@ namespace bp1_chatapp
             // 
             // connectGroupBox
             // 
-            this.connectGroupBox.Controls.Add(this.textBox2);
-            this.connectGroupBox.Controls.Add(this.label2);
-            this.connectGroupBox.Controls.Add(this.textBox1);
-            this.connectGroupBox.Controls.Add(this.label1);
+            this.connectGroupBox.Controls.Add(this.portInput);
+            this.connectGroupBox.Controls.Add(this.portLabel);
+            this.connectGroupBox.Controls.Add(this.usernameInput);
+            this.connectGroupBox.Controls.Add(this.usernameLabel);
             this.connectGroupBox.Controls.Add(this.connectButton);
             this.connectGroupBox.Controls.Add(this.ipInput);
             this.connectGroupBox.Controls.Add(this.ipLabel);
@@ -86,6 +86,36 @@ namespace bp1_chatapp
             this.connectGroupBox.TabStop = false;
             this.connectGroupBox.Text = "Connect";
             // 
+            // portInput
+            // 
+            this.portInput.Location = new System.Drawing.Point(6, 134);
+            this.portInput.Name = "portInput";
+            this.portInput.Size = new System.Drawing.Size(179, 22);
+            this.portInput.TabIndex = 2;
+            // 
+            // portLabel
+            // 
+            this.portLabel.Location = new System.Drawing.Point(6, 112);
+            this.portLabel.Name = "portLabel";
+            this.portLabel.Size = new System.Drawing.Size(83, 19);
+            this.portLabel.TabIndex = 5;
+            this.portLabel.Text = "Port";
+            // 
+            // usernameInput
+            // 
+            this.usernameInput.Location = new System.Drawing.Point(6, 40);
+            this.usernameInput.Name = "usernameInput";
+            this.usernameInput.Size = new System.Drawing.Size(179, 22);
+            this.usernameInput.TabIndex = 0;
+            // 
+            // usernameLabel
+            // 
+            this.usernameLabel.Location = new System.Drawing.Point(6, 18);
+            this.usernameLabel.Name = "usernameLabel";
+            this.usernameLabel.Size = new System.Drawing.Size(83, 19);
+            this.usernameLabel.TabIndex = 3;
+            this.usernameLabel.Text = "Username";
+            // 
             // connectButton
             // 
             this.connectButton.Location = new System.Drawing.Point(6, 162);
@@ -94,6 +124,7 @@ namespace bp1_chatapp
             this.connectButton.TabIndex = 2;
             this.connectButton.Text = "Connect to server";
             this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
             // 
             // ipInput
             // 
@@ -109,36 +140,6 @@ namespace bp1_chatapp
             this.ipLabel.Size = new System.Drawing.Size(83, 19);
             this.ipLabel.TabIndex = 0;
             this.ipLabel.Text = "IP address";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(6, 40);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(179, 22);
-            this.textBox1.TabIndex = 4;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(6, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 19);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Username";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(6, 134);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(179, 22);
-            this.textBox2.TabIndex = 6;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(6, 112);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 19);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Port";
             // 
             // ClientScreen
             // 
@@ -157,10 +158,10 @@ namespace bp1_chatapp
             this.PerformLayout();
         }
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox usernameInput;
+        private System.Windows.Forms.Label usernameLabel;
+        private System.Windows.Forms.TextBox portInput;
+        private System.Windows.Forms.Label portLabel;
 
         private System.Windows.Forms.GroupBox connectGroupBox;
         private System.Windows.Forms.Label ipLabel;

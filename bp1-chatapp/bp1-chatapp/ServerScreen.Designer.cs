@@ -73,7 +73,7 @@ namespace bp1_chatapp
             this.ipInput.Location = new System.Drawing.Point(12, 49);
             this.ipInput.Name = "ipInput";
             this.ipInput.Size = new System.Drawing.Size(177, 22);
-            this.ipInput.TabIndex = 10;
+            this.ipInput.TabIndex = 0;
             // 
             // ipLabel
             // 
@@ -88,7 +88,7 @@ namespace bp1_chatapp
             this.portInput.Location = new System.Drawing.Point(12, 94);
             this.portInput.Name = "portInput";
             this.portInput.Size = new System.Drawing.Size(177, 22);
-            this.portInput.TabIndex = 8;
+            this.portInput.TabIndex = 1;
             // 
             // portLabel
             // 
@@ -113,7 +113,7 @@ namespace bp1_chatapp
             this.bufferInput.Location = new System.Drawing.Point(12, 139);
             this.bufferInput.Name = "bufferInput";
             this.bufferInput.Size = new System.Drawing.Size(177, 22);
-            this.bufferInput.TabIndex = 3;
+            this.bufferInput.TabIndex = 2;
             // 
             // bufferLabel
             // 
