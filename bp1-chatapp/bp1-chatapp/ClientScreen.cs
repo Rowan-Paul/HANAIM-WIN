@@ -53,7 +53,7 @@ namespace bp1_chatapp
         private void SendMessage(String data)
         {
             if (!_networkStream.CanWrite) return;
-            byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+            byte[] msg = Encoding.ASCII.GetBytes(data);
             _networkStream.Write(msg, 0, msg.Length);
         }
 
@@ -64,6 +64,7 @@ namespace bp1_chatapp
             usernameInput.Enabled = false;
             bufferSizeInput.Enabled = false;
             connectButton.Visible = false;
+            disconnectButton.Visible = true;
 
             if (int.TryParse(portInput.Text, out var port))
             {
