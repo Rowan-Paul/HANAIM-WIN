@@ -46,6 +46,12 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="ClientScreen.cs">
+          <SubType>Form</SubType>
+        </Compile>
+        <Compile Include="ClientScreen.Designer.cs">
+          <DependentUpon>ClientScreen.cs</DependentUpon>
+        </Compile>
         <Compile Include="LandingScreen.cs">
             <SubType>Form</SubType>
         </Compile>
@@ -54,6 +60,9 @@
         </Compile>
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <EmbeddedResource Include="ClientScreen.resx">
+          <DependentUpon>ClientScreen.cs</DependentUpon>
+        </EmbeddedResource>
         <EmbeddedResource Include="LandingScreen.resx">
           <DependentUpon>LandingScreen.cs</DependentUpon>
         </EmbeddedResource>

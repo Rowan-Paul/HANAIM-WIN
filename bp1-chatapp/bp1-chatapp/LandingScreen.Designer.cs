@@ -41,6 +41,7 @@
             this.clientButton.TabIndex = 0;
             this.clientButton.Text = "Open client";
             this.clientButton.UseVisualStyleBackColor = true;
+            this.clientButton.Click += new System.EventHandler(this.clientButton_Click);
             // 
             // serverButton
             // 
@@ -59,7 +60,8 @@
             this.Controls.Add(this.serverButton);
             this.Controls.Add(this.clientButton);
             this.Name = "LandingScreen";
-            this.Text = "chatapp";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Rchat";
             this.ResumeLayout(false);
         }
 

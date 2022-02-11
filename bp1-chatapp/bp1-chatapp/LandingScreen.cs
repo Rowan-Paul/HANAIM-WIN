@@ -16,5 +16,11 @@ namespace bp1_chatapp
         {
             InitializeComponent();
         }
+
+        private void clientButton_Click(object sender, EventArgs e)
+        {
+            ClientScreen client = new ClientScreen();
+            client.ShowDialog();
+        }
     }
 }
