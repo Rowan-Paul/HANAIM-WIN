@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace bp1_chatapp
 {
-    public partial class Form1 : Form
+    public partial class LandingScreen : Form
     {
-        public Form1()
+        public LandingScreen()
         {
             InitializeComponent();
         }
