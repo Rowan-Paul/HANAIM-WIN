@@ -34,32 +34,40 @@ namespace bp1_chatapp
                 {
                     byte[] buffer = new byte[bufferSize];
 
-                    do
-                    {
-                        int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
-                        string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                    if (_networkStream.CanRead)
+                        do
+                        {
+                            int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
+                            string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
-                        messagesInput.Text = "";
-                        if (message.Length > 0)
-                        {
-                            chatBox.Items.Add(message);
-                        }
-                        else
-                        {
-                            throw new Exception("Server down");
-                        }
-                    } while (_networkStream.CanRead);
+                            messagesInput.Text = "";
+                            if (message.Length > 0)
+                            {
+                                chatBox.Items.Add(message);
+                            }
+                            else
+                            {
+                                throw new Exception("Server down");
+                            }
+                        } while (_networkStream.CanRead);
                 });
+            }
+            catch (SocketException e)
+            {
+                chatBox.Items.Add("Failed to connect");
+                Console.WriteLine("Client: {0}",e);
             }
             catch (Exception e)
             {
+                if (_client.Connected)
+                {
+                    chatBox.Items.Add("Disconnected");
+                    _client.Close();
+                }
                 Console.WriteLine("Client: {0}", e);
             }
             finally
             {
-                chatBox.Items.Add("Disconnected");
-                _client.Close();
-
                 ipInput.Enabled = true;
                 portInput.Enabled = true;
                 usernameInput.Enabled = true;
@@ -81,31 +89,38 @@ namespace bp1_chatapp
             }
             catch
             {
-                chatBox.Items.Add("Server disconnected");
+                Console.WriteLine("Server disconnected");
             }
         }
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-            //TODO: add max port, buffersize
             if (int.TryParse(portInput.Text, out var port) &&
                 int.TryParse(bufferSizeInput.Text, out var bufferSize) &&
-                IPAddress.TryParse(ipInput.Text, out var ip) &&
-                usernameInput.Text.Length > 0)
+                IPAddress.TryParse(ipInput.Text, out var ip))
             {
-                ipInput.Enabled = false;
-                portInput.Enabled = false;
-                usernameInput.Enabled = false;
-                bufferSizeInput.Enabled = false;
-                connectButton.Visible = false;
-                disconnectButton.Visible = true;
-                sendButton.Enabled = true;
+                if (port <= 65535 && port > 0 &&
+                    bufferSize > 0 && bufferSize < 1024 &&
+                    usernameInput.Text.Length > 0 && usernameInput.Text.Length < 20)
+                {
+                    ipInput.Enabled = false;
+                    portInput.Enabled = false;
+                    usernameInput.Enabled = false;
+                    bufferSizeInput.Enabled = false;
+                    connectButton.Visible = false;
+                    disconnectButton.Visible = true;
+                    sendButton.Enabled = true;
 
-                ConnectServer(ip, port, bufferSize);
+                    ConnectServer(ip, port, bufferSize);
+                }
+                else
+                {
+                    chatBox.Items.Add("Username, IP, port or buffer size too long or short");
+                }
             }
             else
             {
-                chatBox.Items.Add("IP, port or buffersize not correct");
+                chatBox.Items.Add("Username, IP, port or buffer size not correct");
             }
         }
 
