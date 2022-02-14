@@ -17,13 +17,15 @@ namespace bp1_chatapp
         public ServerScreen()
         {
             InitializeComponent();
+
+            stopServerButton.Visible = false;
         }
 
-        private async void CreateServer(string ip, int port, int bufferSize)
+        private async void CreateServer(IPAddress ip, int port, int bufferSize)
         {
             try
             {
-                _server = new TcpListener(IPAddress.Parse(ip), port);
+                _server = new TcpListener(ip, port);
                 _server.Start();
                 chatBox.Items.Add("Server started");
 
@@ -38,10 +40,9 @@ namespace bp1_chatapp
             {
                 chatBox.Items.Add("Can't start server, try different ip/port");
             }
-            catch (ObjectDisposedException)
+            catch
             {
-                // TODO: stop server & connected clients
-                chatBox.Items.Add("The server has been stopped");
+                Console.WriteLine("Server: exception");
             }
         }
 
@@ -50,24 +51,24 @@ namespace bp1_chatapp
             byte[] buffer = new byte[bufferSize];
             NetworkStream networkStream = client.GetStream();
 
-            while (true)
+            do
             {
-                while (networkStream.CanRead)
+                try
                 {
-                    try
+                    int bytes = await networkStream.ReadAsync(buffer, 0, bufferSize);
+                    string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                    
+                    if (message.Length > 0)
                     {
-                        int bytes = await networkStream.ReadAsync(buffer, 0, bufferSize);
-                        string message = Encoding.ASCII.GetString(buffer, 0, bytes);
-
                         chatBox.Items.Add(message);
                         await SendMessages(message);
                     }
-                    catch (ObjectDisposedException)
-                    {
-                        chatBox.Items.Add("Client disconnected.");
-                    }
                 }
-            }
+                catch
+                {
+                    Console.WriteLine("Server: disconnected server");
+                }
+            } while (networkStream.CanRead);
         }
 
         private async Task SendMessages(string message)
@@ -75,28 +76,63 @@ namespace bp1_chatapp
             if (_clientsConnected.Count <= 0) return;
             foreach (TcpClient client in _clientsConnected)
             {
-                NetworkStream networkStream = client.GetStream();
+                try
+                {
+                    NetworkStream networkStream = client.GetStream();
 
-                if (!networkStream.CanRead) continue;
-                byte[] serverMessageByteArray = Encoding.ASCII.GetBytes(message);
-                await networkStream.WriteAsync(serverMessageByteArray, 0, serverMessageByteArray.Length);
+                    if (!networkStream.CanRead) continue;
+                    byte[] serverMessageByteArray = Encoding.ASCII.GetBytes(message);
+                    await networkStream.WriteAsync(serverMessageByteArray, 0, serverMessageByteArray.Length);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Server: {0}", e);
+                }
             }
         }
 
         private void startServerButton_Click(object sender, EventArgs e)
         {
-            ipInput.Enabled = false;
-            portInput.Enabled = false;
-            bufferInput.Enabled = false;
-            startServerButton.Visible = false;
-
-            if (int.TryParse(portInput.Text, out var port) && int.TryParse(bufferInput.Text, out var bufferSize))
+            if (int.TryParse(portInput.Text, out var port) &&
+                int.TryParse(bufferInput.Text, out var bufferSize) &&
+                IPAddress.TryParse(ipInput.Text, out IPAddress ip))
             {
-                CreateServer(ipInput.Text, port, bufferSize);
+                ipInput.Enabled = false;
+                portInput.Enabled = false;
+                bufferInput.Enabled = false;
+                startServerButton.Visible = false;
+                stopServerButton.Visible = true;
+
+                CreateServer(ip, port, bufferSize);
             }
             else
             {
-                Console.WriteLine("Server: Port or buffersize not a number");
+                chatBox.Items.Add("Server: Port or buffersize not a number");
+            }
+        }
+
+        private void stopServerButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                chatBox.Items.Add("Server stopped");
+
+                foreach (TcpClient client in _clientsConnected)
+                {
+                    client.Close();
+                }
+
+                _server.Stop();
+
+                ipInput.Enabled = true;
+                portInput.Enabled = true;
+                bufferInput.Enabled = true;
+                startServerButton.Visible = true;
+                stopServerButton.Visible = false;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Server {0}", exception);
             }
         }
     }

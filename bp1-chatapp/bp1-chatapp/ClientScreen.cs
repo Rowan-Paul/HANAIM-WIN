@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace bp1_chatapp
             disconnectButton.Visible = false;
         }
 
-        private async void ConnectServer(String ip, Int32 port, int bufferSize)
+        private async void ConnectServer(IPAddress ip, Int32 port, int bufferSize)
         {
             try
             {
@@ -26,30 +27,46 @@ namespace bp1_chatapp
                 await _client.ConnectAsync(ip, port);
 
                 _networkStream = _client.GetStream();
-                
                 chatBox.Items.Add("Connected to " + ip);
 
                 await Task.Run(async () =>
                 {
                     byte[] buffer = new byte[bufferSize];
 
-                    while (_networkStream.CanRead)
+                    do
                     {
                         int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
                         string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
+                        Console.WriteLine(bytes);
+
                         messagesInput.Text = "";
-                        chatBox.Items.Add(message);
-                    }
+                        if (message.Length > 0)
+                        {
+                            chatBox.Items.Add(message);
+                        }
+                        else
+                        {
+                            throw new Exception("Server down");
+                        }
+                    } while (_networkStream.CanRead);
                 });
             }
-            catch (SocketException e)
+            catch (Exception e)
             {
-                Console.WriteLine("SocketException Client: {0}", e);
+                Console.WriteLine("Client: {0}", e);
             }
             finally
             {
+                chatBox.Items.Add("Disconnected");
                 _client.Close();
+
+                ipInput.Enabled = true;
+                portInput.Enabled = true;
+                usernameInput.Enabled = true;
+                bufferSizeInput.Enabled = true;
+                connectButton.Visible = true;
+                disconnectButton.Visible = false;
             }
         }
 
@@ -57,7 +74,15 @@ namespace bp1_chatapp
         {
             if (!_networkStream.CanWrite) return;
             byte[] msg = Encoding.ASCII.GetBytes(data);
-            _networkStream.Write(msg, 0, msg.Length);
+
+            try
+            {
+                _networkStream.Write(msg, 0, msg.Length);
+            }
+            catch
+            {
+                chatBox.Items.Add("Server disconnected");
+            }
         }
 
         private void connectButton_Click(object sender, EventArgs e)
@@ -69,13 +94,16 @@ namespace bp1_chatapp
             connectButton.Visible = false;
             disconnectButton.Visible = true;
 
-            if (int.TryParse(portInput.Text, out var port) && int.TryParse(bufferSizeInput.Text, out var bufferSize))
+            //TODO: add max port, buffersize
+            if (int.TryParse(portInput.Text, out var port) &&
+                int.TryParse(bufferSizeInput.Text, out var bufferSize) &&
+                IPAddress.TryParse(ipInput.Text, out IPAddress ip))
             {
-                ConnectServer(ipInput.Text, port, bufferSize);
+                ConnectServer(ip, port, bufferSize);
             }
             else
             {
-                Console.WriteLine("Client: Port or buffersize not a number");
+                chatBox.Items.Add("Client: Port or buffersize not a number");
             }
         }
 
@@ -88,7 +116,9 @@ namespace bp1_chatapp
         {
             try
             {
-                //TODO: close connection
+                chatBox.Items.Add("Disconnected");
+                _client.Close();
+                
                 ipInput.Enabled = true;
                 portInput.Enabled = true;
                 usernameInput.Enabled = true;
@@ -98,7 +128,7 @@ namespace bp1_chatapp
             }
             catch (Exception exception)
             {
-                Console.WriteLine("Client disconnect: {0}", exception);
+                Console.WriteLine("Client: {0}", exception);
             }
         }
     }

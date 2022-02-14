@@ -40,20 +40,22 @@ namespace bp1_chatapp
             this.startServerButton = new System.Windows.Forms.Button();
             this.bufferInput = new System.Windows.Forms.TextBox();
             this.bufferLabel = new System.Windows.Forms.Label();
+            this.stopServerButton = new System.Windows.Forms.Button();
             this.createServerGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // chatBox
             // 
             this.chatBox.FormattingEnabled = true;
-            this.chatBox.ItemHeight = 16;
-            this.chatBox.Location = new System.Drawing.Point(12, 12);
+            this.chatBox.Location = new System.Drawing.Point(9, 10);
+            this.chatBox.Margin = new System.Windows.Forms.Padding(2);
             this.chatBox.Name = "chatBox";
-            this.chatBox.Size = new System.Drawing.Size(568, 388);
+            this.chatBox.Size = new System.Drawing.Size(427, 316);
             this.chatBox.TabIndex = 0;
             // 
             // createServerGroupBox
             // 
+            this.createServerGroupBox.Controls.Add(this.stopServerButton);
             this.createServerGroupBox.Controls.Add(this.ipInput);
             this.createServerGroupBox.Controls.Add(this.ipLabel);
             this.createServerGroupBox.Controls.Add(this.portInput);
@@ -61,48 +63,55 @@ namespace bp1_chatapp
             this.createServerGroupBox.Controls.Add(this.startServerButton);
             this.createServerGroupBox.Controls.Add(this.bufferInput);
             this.createServerGroupBox.Controls.Add(this.bufferLabel);
-            this.createServerGroupBox.Location = new System.Drawing.Point(593, 12);
+            this.createServerGroupBox.Location = new System.Drawing.Point(445, 10);
+            this.createServerGroupBox.Margin = new System.Windows.Forms.Padding(2);
             this.createServerGroupBox.Name = "createServerGroupBox";
-            this.createServerGroupBox.Size = new System.Drawing.Size(195, 213);
+            this.createServerGroupBox.Padding = new System.Windows.Forms.Padding(2);
+            this.createServerGroupBox.Size = new System.Drawing.Size(146, 173);
             this.createServerGroupBox.TabIndex = 1;
             this.createServerGroupBox.TabStop = false;
             this.createServerGroupBox.Text = "Start server";
             // 
             // ipInput
             // 
-            this.ipInput.Location = new System.Drawing.Point(12, 49);
+            this.ipInput.Location = new System.Drawing.Point(9, 40);
+            this.ipInput.Margin = new System.Windows.Forms.Padding(2);
             this.ipInput.Name = "ipInput";
-            this.ipInput.Size = new System.Drawing.Size(177, 22);
+            this.ipInput.Size = new System.Drawing.Size(134, 20);
             this.ipInput.TabIndex = 0;
             // 
             // ipLabel
             // 
-            this.ipLabel.Location = new System.Drawing.Point(12, 32);
+            this.ipLabel.Location = new System.Drawing.Point(9, 26);
+            this.ipLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ipLabel.Name = "ipLabel";
-            this.ipLabel.Size = new System.Drawing.Size(100, 23);
+            this.ipLabel.Size = new System.Drawing.Size(75, 19);
             this.ipLabel.TabIndex = 9;
             this.ipLabel.Text = "IP address";
             // 
             // portInput
             // 
-            this.portInput.Location = new System.Drawing.Point(12, 94);
+            this.portInput.Location = new System.Drawing.Point(9, 76);
+            this.portInput.Margin = new System.Windows.Forms.Padding(2);
             this.portInput.Name = "portInput";
-            this.portInput.Size = new System.Drawing.Size(177, 22);
+            this.portInput.Size = new System.Drawing.Size(134, 20);
             this.portInput.TabIndex = 1;
             // 
             // portLabel
             // 
-            this.portLabel.Location = new System.Drawing.Point(12, 77);
+            this.portLabel.Location = new System.Drawing.Point(9, 63);
+            this.portLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.portLabel.Name = "portLabel";
-            this.portLabel.Size = new System.Drawing.Size(100, 23);
+            this.portLabel.Size = new System.Drawing.Size(75, 19);
             this.portLabel.TabIndex = 7;
             this.portLabel.Text = "Port";
             // 
             // startServerButton
             // 
-            this.startServerButton.Location = new System.Drawing.Point(12, 167);
+            this.startServerButton.Location = new System.Drawing.Point(9, 136);
+            this.startServerButton.Margin = new System.Windows.Forms.Padding(2);
             this.startServerButton.Name = "startServerButton";
-            this.startServerButton.Size = new System.Drawing.Size(177, 33);
+            this.startServerButton.Size = new System.Drawing.Size(133, 27);
             this.startServerButton.TabIndex = 6;
             this.startServerButton.Text = "Start server";
             this.startServerButton.UseVisualStyleBackColor = true;
@@ -110,32 +119,47 @@ namespace bp1_chatapp
             // 
             // bufferInput
             // 
-            this.bufferInput.Location = new System.Drawing.Point(12, 139);
+            this.bufferInput.Location = new System.Drawing.Point(9, 113);
+            this.bufferInput.Margin = new System.Windows.Forms.Padding(2);
             this.bufferInput.Name = "bufferInput";
-            this.bufferInput.Size = new System.Drawing.Size(177, 22);
+            this.bufferInput.Size = new System.Drawing.Size(134, 20);
             this.bufferInput.TabIndex = 2;
             // 
             // bufferLabel
             // 
-            this.bufferLabel.Location = new System.Drawing.Point(12, 122);
+            this.bufferLabel.Location = new System.Drawing.Point(9, 99);
+            this.bufferLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.bufferLabel.Name = "bufferLabel";
-            this.bufferLabel.Size = new System.Drawing.Size(100, 23);
+            this.bufferLabel.Size = new System.Drawing.Size(75, 19);
             this.bufferLabel.TabIndex = 2;
             this.bufferLabel.Text = "Buffer size";
             // 
+            // stopServerButton
+            // 
+            this.stopServerButton.Location = new System.Drawing.Point(9, 136);
+            this.stopServerButton.Margin = new System.Windows.Forms.Padding(2);
+            this.stopServerButton.Name = "stopServerButton";
+            this.stopServerButton.Size = new System.Drawing.Size(133, 27);
+            this.stopServerButton.TabIndex = 0;
+            this.stopServerButton.Text = "Stop server";
+            this.stopServerButton.Click += new System.EventHandler(this.stopServerButton_Click);
+            // 
             // ServerScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
             this.Controls.Add(this.createServerGroupBox);
             this.Controls.Add(this.chatBox);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ServerScreen";
             this.Text = "Rchat server";
             this.createServerGroupBox.ResumeLayout(false);
             this.createServerGroupBox.PerformLayout();
             this.ResumeLayout(false);
         }
+
+        private System.Windows.Forms.Button stopServerButton;
 
         private System.Windows.Forms.TextBox portInput;
         private System.Windows.Forms.Label portLabel;
