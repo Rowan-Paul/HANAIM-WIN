@@ -33,6 +33,7 @@ namespace bp1_chatapp
                 {
                     _client = await _server.AcceptTcpClientAsync();
                     _clientsConnected.Add(_client);
+
                     await Task.Run(() => MessageReceiver(_client, bufferSize));
                 }
             }
@@ -40,9 +41,19 @@ namespace bp1_chatapp
             {
                 chatBox.Items.Add("Can't start server, try different ip/port");
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Server: exception");
+                Console.WriteLine("Server {0}", e);
+            }
+            finally
+            {
+                _server.Stop();
+
+                ipInput.Enabled = true;
+                portInput.Enabled = true;
+                bufferInput.Enabled = true;
+                startServerButton.Visible = true;
+                stopServerButton.Visible = false;
             }
         }
 
@@ -57,16 +68,17 @@ namespace bp1_chatapp
                 {
                     int bytes = await networkStream.ReadAsync(buffer, 0, bufferSize);
                     string message = Encoding.ASCII.GetString(buffer, 0, bytes);
-                    
+
                     if (message.Length > 0)
                     {
                         chatBox.Items.Add(message);
                         await SendMessages(message);
                     }
                 }
-                catch
+                catch(Exception e)
                 {
-                    Console.WriteLine("Server: disconnected server");
+                    client.Close();
+                    Console.WriteLine("Server: disconnected client {0}",e);
                 }
             } while (networkStream.CanRead);
         }
@@ -86,7 +98,7 @@ namespace bp1_chatapp
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Server: {0}", e);
+                    Console.WriteLine("Server {0}", e);
                 }
             }
         }
@@ -107,7 +119,7 @@ namespace bp1_chatapp
             }
             else
             {
-                chatBox.Items.Add("Server: Port or buffersize not a number");
+                chatBox.Items.Add("IP, port or buffersize not correct");
             }
         }
 

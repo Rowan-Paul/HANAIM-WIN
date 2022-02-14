@@ -90,7 +90,8 @@ namespace bp1_chatapp
             //TODO: add max port, buffersize
             if (int.TryParse(portInput.Text, out var port) &&
                 int.TryParse(bufferSizeInput.Text, out var bufferSize) &&
-                IPAddress.TryParse(ipInput.Text, out IPAddress ip))
+                IPAddress.TryParse(ipInput.Text, out var ip) &&
+                usernameInput.Text.Length > 0)
             {
                 ipInput.Enabled = false;
                 portInput.Enabled = false;
@@ -104,7 +105,7 @@ namespace bp1_chatapp
             }
             else
             {
-                chatBox.Items.Add("Client: Port or buffersize not a number");
+                chatBox.Items.Add("IP, port or buffersize not correct");
             }
         }
 
