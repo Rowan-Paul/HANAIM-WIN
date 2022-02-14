@@ -38,8 +38,6 @@ namespace bp1_chatapp
                         int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
                         string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
-                        Console.WriteLine(bytes);
-
                         messagesInput.Text = "";
                         if (message.Length > 0)
                         {
