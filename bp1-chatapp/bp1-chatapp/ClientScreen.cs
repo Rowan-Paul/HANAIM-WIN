@@ -26,6 +26,8 @@ namespace bp1_chatapp
                 await _client.ConnectAsync(ip, port);
 
                 _networkStream = _client.GetStream();
+                
+                chatBox.Items.Add("Connected to " + ip);
 
                 await Task.Run(async () =>
                 {
@@ -36,6 +38,7 @@ namespace bp1_chatapp
                         int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
                         string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
+                        messagesInput.Text = "";
                         chatBox.Items.Add(message);
                     }
                 });
@@ -66,9 +69,9 @@ namespace bp1_chatapp
             connectButton.Visible = false;
             disconnectButton.Visible = true;
 
-            if (int.TryParse(portInput.Text, out var port))
+            if (int.TryParse(portInput.Text, out var port) && int.TryParse(bufferSizeInput.Text, out var bufferSize))
             {
-                ConnectServer(ipInput.Text, port, 256);
+                ConnectServer(ipInput.Text, port, bufferSize);
             }
             else
             {

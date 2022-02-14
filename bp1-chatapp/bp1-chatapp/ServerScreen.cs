@@ -12,55 +12,74 @@ namespace bp1_chatapp
     {
         private TcpClient _client;
         private TcpListener _server;
-        private List<TcpClient> clientsConnected = new List<TcpClient>();
-        private NetworkStream _networkStream;
+        private List<TcpClient> _clientsConnected = new List<TcpClient>();
 
         public ServerScreen()
         {
             InitializeComponent();
         }
 
-        private async void CreateServer(String ip, Int32 port, int bufferSize)
+        private async void CreateServer(string ip, int port, int bufferSize)
         {
             try
             {
                 _server = new TcpListener(IPAddress.Parse(ip), port);
                 _server.Start();
+                chatBox.Items.Add("Server started");
 
                 while (true)
                 {
                     _client = await _server.AcceptTcpClientAsync();
-
-                    clientsConnected.Add(_client);
-                    await Task.Run(async () =>
-                    {
-                        byte[] buffer = new byte[bufferSize];
-                        _networkStream = _client.GetStream();
-
-                        while (_networkStream.CanRead)
-                        {
-                            int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
-                            string message = Encoding.ASCII.GetString(buffer, 0, bytes);
-
-                            if (_networkStream.CanRead)
-                            {
-                                byte[] serverMessageByteArray = Encoding.ASCII.GetBytes(message);
-                                await _networkStream.WriteAsync(serverMessageByteArray, 0,
-                                    serverMessageByteArray.Length);
-
-                                chatBox.Items.Add(message);
-                            }
-                        }
-                    });
+                    _clientsConnected.Add(_client);
+                    await Task.Run(() => MessageReceiver(_client, bufferSize));
                 }
             }
-            catch (SocketException e)
+            catch (SocketException)
             {
-                Console.WriteLine("SocketException Server: {0}", e);
+                chatBox.Items.Add("Can't start server, try different ip/port");
             }
-            finally
+            catch (ObjectDisposedException)
             {
-                _server.Stop();
+                // TODO: stop server & connected clients
+                chatBox.Items.Add("The server has been stopped");
+            }
+        }
+
+        private async void MessageReceiver(TcpClient client, int bufferSize)
+        {
+            byte[] buffer = new byte[bufferSize];
+            NetworkStream networkStream = client.GetStream();
+
+            while (true)
+            {
+                while (networkStream.CanRead)
+                {
+                    try
+                    {
+                        int bytes = await networkStream.ReadAsync(buffer, 0, bufferSize);
+                        string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+
+                        chatBox.Items.Add(message);
+                        await SendMessages(message);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        chatBox.Items.Add("Client disconnected.");
+                    }
+                }
+            }
+        }
+
+        private async Task SendMessages(string message)
+        {
+            if (_clientsConnected.Count <= 0) return;
+            foreach (TcpClient client in _clientsConnected)
+            {
+                NetworkStream networkStream = client.GetStream();
+
+                if (!networkStream.CanRead) continue;
+                byte[] serverMessageByteArray = Encoding.ASCII.GetBytes(message);
+                await networkStream.WriteAsync(serverMessageByteArray, 0, serverMessageByteArray.Length);
             }
         }
 
