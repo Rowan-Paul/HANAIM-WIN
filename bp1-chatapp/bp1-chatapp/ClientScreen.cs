@@ -29,27 +29,28 @@ namespace bp1_chatapp
 
                 _networkStream = _client.GetStream();
                 chatBox.Items.Add("Connected to " + ip);
+                //TODO: add auto scroll on every send message
+                //chatBox.SelectedIndex = chatBox.Items.Count - 1;
 
                 await Task.Run(async () =>
                 {
                     byte[] buffer = new byte[bufferSize];
 
-                    if (_networkStream.CanRead)
-                        do
-                        {
-                            int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
-                            string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                    while (_networkStream.CanRead)
+                    {
+                        int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
+                        string message = Encoding.ASCII.GetString(buffer, 0, bytes);
 
-                            messagesInput.Text = "";
-                            if (message.Length > 0)
-                            {
-                                chatBox.Items.Add(message);
-                            }
-                            else
-                            {
-                                throw new Exception("Server down");
-                            }
-                        } while (_networkStream.CanRead);
+                        messagesInput.Text = "";
+                        if (message.Length > 0)
+                        {
+                            chatBox.Items.Add(message);
+                        }
+                        else
+                        {
+                            throw new Exception("Server down");
+                        }
+                    }
                 });
             }
             catch (SocketException e)
@@ -126,7 +127,7 @@ namespace bp1_chatapp
 
         private void sendButton_Click(object sender, EventArgs e)
         {
-            SendMessage(messagesInput.Text);
+            SendMessage(messagesInput.Text + "--" + usernameInput.Text);
         }
 
         private void disconnectButton_Click(object sender, EventArgs e)

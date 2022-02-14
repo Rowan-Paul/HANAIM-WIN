@@ -19,6 +19,8 @@ namespace bp1_chatapp
             InitializeComponent();
 
             stopServerButton.Visible = false;
+            chatBox.SelectedIndex = chatBox.Items.Count - 1;
+
         }
 
         private async void CreateServer(IPAddress ip, int port, int bufferSize)
@@ -34,7 +36,7 @@ namespace bp1_chatapp
                     _client = await _server.AcceptTcpClientAsync();
                     _clientsConnected.Add(_client);
 
-                    await Task.Run(() => MessageReceiver(_client, bufferSize));
+                    await Task.Run(() => MessagesReceiver(_client, bufferSize));
                 }
             }
             catch (SocketException)
@@ -57,7 +59,7 @@ namespace bp1_chatapp
             }
         }
 
-        private async void MessageReceiver(TcpClient client, int bufferSize)
+        private async void MessagesReceiver(TcpClient client, int bufferSize)
         {
             byte[] buffer = new byte[bufferSize];
             NetworkStream networkStream = client.GetStream();
@@ -71,14 +73,25 @@ namespace bp1_chatapp
 
                     if (message.Length > 0)
                     {
-                        chatBox.Items.Add(message);
-                        await SendMessages(message);
+                        if (message.Contains("--"))
+                        {
+                            char[] delimiter = "--".ToCharArray();
+                            string[] msgArray = message.Split(delimiter);
+                            
+                            chatBox.Items.Add(msgArray[2] + ": " + msgArray[0]);
+                            await SendMessages(msgArray[2] + ": " + msgArray[0]);
+                        }
+                        else
+                        {
+                            chatBox.Items.Add(message);
+                            await SendMessages(message);
+                        }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     client.Close();
-                    Console.WriteLine("Server: disconnected client {0}",e);
+                    Console.WriteLine("Server: {0}", e);
                 }
             } while (networkStream.CanRead);
         }
