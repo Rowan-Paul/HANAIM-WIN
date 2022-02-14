@@ -17,6 +17,7 @@ namespace bp1_chatapp
             InitializeComponent();
 
             disconnectButton.Visible = false;
+            sendButton.Enabled = false;
         }
 
         private async void ConnectServer(IPAddress ip, Int32 port, int bufferSize)
@@ -65,6 +66,7 @@ namespace bp1_chatapp
                 bufferSizeInput.Enabled = true;
                 connectButton.Visible = true;
                 disconnectButton.Visible = false;
+                sendButton.Enabled = false;
             }
         }
 
@@ -85,18 +87,19 @@ namespace bp1_chatapp
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-            ipInput.Enabled = false;
-            portInput.Enabled = false;
-            usernameInput.Enabled = false;
-            bufferSizeInput.Enabled = false;
-            connectButton.Visible = false;
-            disconnectButton.Visible = true;
-
             //TODO: add max port, buffersize
             if (int.TryParse(portInput.Text, out var port) &&
                 int.TryParse(bufferSizeInput.Text, out var bufferSize) &&
                 IPAddress.TryParse(ipInput.Text, out IPAddress ip))
             {
+                ipInput.Enabled = false;
+                portInput.Enabled = false;
+                usernameInput.Enabled = false;
+                bufferSizeInput.Enabled = false;
+                connectButton.Visible = false;
+                disconnectButton.Visible = true;
+                sendButton.Enabled = true;
+
                 ConnectServer(ip, port, bufferSize);
             }
             else
@@ -116,13 +119,14 @@ namespace bp1_chatapp
             {
                 chatBox.Items.Add("Disconnected");
                 _client.Close();
-                
+
                 ipInput.Enabled = true;
                 portInput.Enabled = true;
                 usernameInput.Enabled = true;
                 bufferSizeInput.Enabled = true;
                 connectButton.Visible = true;
                 disconnectButton.Visible = false;
+                sendButton.Enabled = false;
             }
             catch (Exception exception)
             {
