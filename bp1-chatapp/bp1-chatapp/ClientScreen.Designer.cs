@@ -56,6 +56,7 @@ namespace bp1_chatapp
             this.chatBox.Name = "chatBox";
             this.chatBox.Size = new System.Drawing.Size(568, 388);
             this.chatBox.TabIndex = 0;
+            this.chatBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // messagesInput
             // 
@@ -63,6 +64,7 @@ namespace bp1_chatapp
             this.messagesInput.Name = "messagesInput";
             this.messagesInput.Size = new System.Drawing.Size(492, 22);
             this.messagesInput.TabIndex = 1;
+            this.messagesInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // sendButton
             // 
@@ -73,6 +75,7 @@ namespace bp1_chatapp
             this.sendButton.Text = "Send";
             this.sendButton.UseVisualStyleBackColor = true;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
+            this.sendButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // connectGroupBox
             // 
@@ -92,6 +95,7 @@ namespace bp1_chatapp
             this.connectGroupBox.TabIndex = 3;
             this.connectGroupBox.TabStop = false;
             this.connectGroupBox.Text = "Connect";
+            this.connectGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // disconnectButton
             // 
@@ -102,6 +106,7 @@ namespace bp1_chatapp
             this.disconnectButton.Text = "Disconnect";
             this.disconnectButton.UseVisualStyleBackColor = true;
             this.disconnectButton.Click += new System.EventHandler(this.disconnectButton_Click);
+            this.disconnectButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // bufferSizeLabel
             // 
@@ -110,6 +115,7 @@ namespace bp1_chatapp
             this.bufferSizeLabel.Size = new System.Drawing.Size(100, 15);
             this.bufferSizeLabel.TabIndex = 9;
             this.bufferSizeLabel.Text = "Buffer size";
+            this.bufferSizeLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // bufferSizeInput
             // 
@@ -117,6 +123,7 @@ namespace bp1_chatapp
             this.bufferSizeInput.Name = "bufferSizeInput";
             this.bufferSizeInput.Size = new System.Drawing.Size(179, 22);
             this.bufferSizeInput.TabIndex = 3;
+            this.bufferSizeInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // portInput
             // 
@@ -124,6 +131,7 @@ namespace bp1_chatapp
             this.portInput.Name = "portInput";
             this.portInput.Size = new System.Drawing.Size(179, 22);
             this.portInput.TabIndex = 2;
+            this.bufferSizeInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // portLabel
             // 
@@ -132,6 +140,7 @@ namespace bp1_chatapp
             this.portLabel.Size = new System.Drawing.Size(83, 19);
             this.portLabel.TabIndex = 5;
             this.portLabel.Text = "Port";
+            this.bufferSizeInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // usernameInput
             // 
@@ -139,6 +148,7 @@ namespace bp1_chatapp
             this.usernameInput.Name = "usernameInput";
             this.usernameInput.Size = new System.Drawing.Size(179, 22);
             this.usernameInput.TabIndex = 0;
+            this.usernameInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // usernameLabel
             // 
@@ -147,6 +157,7 @@ namespace bp1_chatapp
             this.usernameLabel.Size = new System.Drawing.Size(83, 19);
             this.usernameLabel.TabIndex = 3;
             this.usernameLabel.Text = "Username";
+            this.usernameLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // connectButton
             // 
@@ -157,6 +168,7 @@ namespace bp1_chatapp
             this.connectButton.Text = "Connect to server";
             this.connectButton.UseVisualStyleBackColor = true;
             this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            this.connectButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // ipInput
             // 
@@ -164,6 +176,7 @@ namespace bp1_chatapp
             this.ipInput.Name = "ipInput";
             this.ipInput.Size = new System.Drawing.Size(179, 22);
             this.ipInput.TabIndex = 1;
+            this.connectButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // ipLabel
             // 
@@ -172,6 +185,7 @@ namespace bp1_chatapp
             this.ipLabel.Size = new System.Drawing.Size(83, 19);
             this.ipLabel.TabIndex = 0;
             this.ipLabel.Text = "IP address";
+            this.ipLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // ClientScreen
             // 
