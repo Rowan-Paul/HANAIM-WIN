@@ -20,7 +20,6 @@ namespace bp1_chatapp
 
             stopServerButton.Visible = false;
             chatBox.SelectedIndex = chatBox.Items.Count - 1;
-
         }
 
         private async void CreateServer(IPAddress ip, int port, int bufferSize)
@@ -61,39 +60,43 @@ namespace bp1_chatapp
 
         private async void MessagesReceiver(TcpClient client, int bufferSize)
         {
-            byte[] buffer = new byte[bufferSize];
             NetworkStream networkStream = client.GetStream();
 
-            do
+            try
             {
-                try
+                while (networkStream.CanRead)
                 {
-                    int bytes = await networkStream.ReadAsync(buffer, 0, bufferSize);
-                    string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                    byte[] myReadBuffer = new byte[bufferSize];
+                    StringBuilder message = new StringBuilder();
+
+                    do
+                    {
+                        int numberOfBytesRead =
+                            await networkStream.ReadAsync(myReadBuffer, 0, myReadBuffer.Length);
+                        message.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+                    } while (networkStream.DataAvailable);
 
                     if (message.Length > 0)
                     {
-                        if (message.Contains("--"))
+                        if (message.ToString().Contains("--"))
                         {
                             char[] delimiter = "--".ToCharArray();
-                            string[] msgArray = message.Split(delimiter);
-                            
+                            string[] msgArray = message.ToString().Split(delimiter);
+
                             chatBox.Items.Add(msgArray[2] + ": " + msgArray[0]);
                             await SendMessages(msgArray[2] + ": " + msgArray[0]);
                         }
                         else
                         {
                             chatBox.Items.Add(message);
-                            await SendMessages(message);
                         }
                     }
                 }
-                catch (Exception e)
-                {
-                    client.Close();
-                    Console.WriteLine("Server: {0}", e);
-                }
-            } while (networkStream.CanRead);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Server: {0}", e);
+            }
         }
 
         private async Task SendMessages(string message)

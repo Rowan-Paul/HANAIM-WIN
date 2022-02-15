@@ -32,21 +32,25 @@ namespace bp1_chatapp
 
                 await Task.Run(async () =>
                 {
-                    byte[] buffer = new byte[bufferSize];
-
                     while (_networkStream.CanRead)
                     {
-                        int bytes = await _networkStream.ReadAsync(buffer, 0, bufferSize);
-                        string message = Encoding.ASCII.GetString(buffer, 0, bytes);
+                        byte[] myReadBuffer = new byte[bufferSize];
+                        StringBuilder message = new StringBuilder();
 
-                        messagesInput.Text = "";
+                        do
+                        {
+                            int numberOfBytesRead =
+                                await _networkStream.ReadAsync(myReadBuffer, 0, myReadBuffer.Length);
+                            message.AppendFormat("{0}", Encoding.ASCII.GetString(myReadBuffer, 0, numberOfBytesRead));
+                        } while (_networkStream.DataAvailable);
+
                         if (message.Length > 0)
                         {
                             chatBox.Items.Add(message);
                         }
                         else
                         {
-                            throw new Exception("Server down");
+                            throw new Exception("Server disconnected");
                         }
                     }
                 });
@@ -54,7 +58,7 @@ namespace bp1_chatapp
             catch (SocketException e)
             {
                 chatBox.Items.Add("Failed to connect");
-                Console.WriteLine("Client: {0}",e);
+                Console.WriteLine("Client: {0}", e);
             }
             catch (Exception e)
             {
@@ -63,6 +67,7 @@ namespace bp1_chatapp
                     chatBox.Items.Add("Disconnected");
                     _client.Close();
                 }
+
                 Console.WriteLine("Client: {0}", e);
             }
             finally
@@ -85,6 +90,8 @@ namespace bp1_chatapp
             try
             {
                 _networkStream.Write(msg, 0, msg.Length);
+                messagesInput.Clear();
+                messagesInput.Focus();
             }
             catch
             {
