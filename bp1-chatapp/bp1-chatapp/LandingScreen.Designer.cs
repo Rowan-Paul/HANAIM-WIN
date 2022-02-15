@@ -42,6 +42,7 @@
             this.clientButton.Text = "Open client";
             this.clientButton.UseVisualStyleBackColor = true;
             this.clientButton.Click += new System.EventHandler(this.clientButton_Click);
+            this.clientButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // serverButton
             // 
@@ -52,6 +53,7 @@
             this.serverButton.Text = "Open server";
             this.serverButton.UseVisualStyleBackColor = true;
             this.serverButton.Click += new System.EventHandler(this.serverButton_Click);
+            this.serverButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // LandingScreen
             // 
