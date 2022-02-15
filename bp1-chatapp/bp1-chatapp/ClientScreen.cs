@@ -29,8 +29,6 @@ namespace bp1_chatapp
 
                 _networkStream = _client.GetStream();
                 chatBox.Items.Add("Connected to " + ip);
-                //TODO: add auto scroll on every send message
-                //chatBox.SelectedIndex = chatBox.Items.Count - 1;
 
                 await Task.Run(async () =>
                 {
