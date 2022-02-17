@@ -20,6 +20,12 @@ namespace bp1_chatapp
             sendButton.Enabled = false;
         }
 
+        /**
+         * Connects to server and receives messages
+         * @param ip The ip of the server
+         * @param port The port of the server
+         * @param bufferSize Buffersize for the client
+         */
         private async void ConnectServer(IPAddress ip, Int32 port, int bufferSize)
         {
             try
@@ -82,6 +88,10 @@ namespace bp1_chatapp
             }
         }
 
+        /*
+         * Sends a message to the connected server
+         * @param data The message to send
+         */
         private void SendMessage(String data)
         {
             if (!_networkStream.CanWrite) return;

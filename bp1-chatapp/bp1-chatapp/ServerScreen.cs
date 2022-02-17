@@ -58,6 +58,11 @@ namespace bp1_chatapp
             }
         }
 
+        /*
+         * Receives messages and sends them to clients
+         * @param client The connected client
+         * @param bufferSize The buffer size for the server
+         */
         private async void MessagesReceiver(TcpClient client, int bufferSize)
         {
             NetworkStream networkStream = client.GetStream();
@@ -99,6 +104,10 @@ namespace bp1_chatapp
             }
         }
 
+        /*
+         * Sends messages to all clients
+         * @param message The message to send
+         */
         private async Task SendMessages(string message)
         {
             if (_clientsConnected.Count <= 0) return;
