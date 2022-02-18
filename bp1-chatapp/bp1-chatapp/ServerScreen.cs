@@ -14,6 +14,9 @@ namespace bp1_chatapp
         private TcpListener _server;
         private List<TcpClient> _clientsConnected = new List<TcpClient>();
 
+        /*
+         * Initializes the server
+         */
         public ServerScreen()
         {
             InitializeComponent();
@@ -22,6 +25,12 @@ namespace bp1_chatapp
             chatBox.SelectedIndex = chatBox.Items.Count - 1;
         }
 
+        /*
+         * Creates a server
+         * @param ip IP to create server on
+         * @param port Port for the server
+         * @param bufferSize Buffer size for the server
+         */
         private async void CreateServer(IPAddress ip, int port, int bufferSize)
         {
             try
@@ -128,6 +137,9 @@ namespace bp1_chatapp
             }
         }
 
+        /*
+         * On Click: Starts server
+         */
         private void startServerButton_Click(object sender, EventArgs e)
         {
             if (int.TryParse(portInput.Text, out var port) &&
@@ -148,6 +160,9 @@ namespace bp1_chatapp
             }
         }
 
+        /*
+         * On Click: Stops server
+         */
         private void stopServerButton_Click(object sender, EventArgs e)
         {
             try

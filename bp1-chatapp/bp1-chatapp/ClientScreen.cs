@@ -12,6 +12,9 @@ namespace bp1_chatapp
         private TcpClient _client;
         private NetworkStream _networkStream;
 
+        /*
+         * Initializes client form
+         */
         public ClientScreen()
         {
             InitializeComponent();
@@ -109,6 +112,9 @@ namespace bp1_chatapp
             }
         }
 
+        /*
+         * On click: Connects to server
+         */
         private void connectButton_Click(object sender, EventArgs e)
         {
             if (int.TryParse(portInput.Text, out var port) &&
@@ -140,11 +146,17 @@ namespace bp1_chatapp
             }
         }
 
+        /*
+         * On click: Sends a message
+         */
         private void sendButton_Click(object sender, EventArgs e)
         {
             SendMessage(messagesInput.Text + "--" + usernameInput.Text);
         }
 
+        /*
+         * On click: Disconnects from server
+         */
         private void disconnectButton_Click(object sender, EventArgs e)
         {
             try
