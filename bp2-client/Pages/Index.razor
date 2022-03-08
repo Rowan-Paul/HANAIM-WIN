@@ -1,0 +1,15 @@
+﻿@page "/"
+@inject IMovieViewModel _movieVm
+
+<PageTitle>Index</PageTitle>
+
+<h1>Movies</h1>
+
+@foreach (var m in _movieVm.Movies)
+{
+    <div class="mb-1">
+        <span class="fw-bold" value="@m.ID">@m.title</span>
+        <br/>
+        <span>@m.overview</span>
+    </div>
+}
