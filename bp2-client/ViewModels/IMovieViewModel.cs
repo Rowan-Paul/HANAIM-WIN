@@ -12,9 +12,8 @@ public interface IMovieViewModel
     void NewMovie();
     List<Movie> Movies { get; }
     Movie SelectedMovie { get; set; }
-    Task MovieSelected(ChangeEventArgs args);
     Task<Movie> GetMovie(int Id);
     Task UpdateSelectedMovie();
     Task AddMovie();
-    Task DeleteSelectedMovie();
+    Task DeleteMovie(Movie id);
 }

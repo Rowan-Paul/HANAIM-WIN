@@ -14,20 +14,30 @@ public class MovieViewModel : IMovieViewModel
 
     public async Task InitializeViewModel() // Could accept a primary key, etc.
     {
-        await Task.Delay(0);//delete after actual async thing
+        await Task.Delay(0); //delete after actual async thing
         // initialize here
         movies = new List<Movie>();
-        movies.Add(new Movie() {ID = 1, title="Red Notice", 
+        movies.Add(new Movie()
+        {
+            ID = 1, title = "Red Notice",
             overview = "An Interpol-issued Red Notice is a global alert to hunt and capture the world's most wanted. " +
                        "But when a daring heist brings together the FBI's top profiler and two rival criminals, " +
-                       "there's no telling what will happen."});
-        movies.Add(new Movie() {ID = 2, title = "Eternals", 
-            overview = "The Eternals are a team of ancient aliens who have been living on Earth in secret for thousands" +
-                       " of years. When an unexpected tragedy forces them out of the shadows, they are forced to reunite " +
-                       "against mankind’s most ancient enemy, the Deviants."});
-        movies.Add(new Movie() {ID = 3, title = "Venom: Let There Be Carnage", 
+                       "there's no telling what will happen."
+        });
+        movies.Add(new Movie()
+        {
+            ID = 2, title = "Eternals",
+            overview =
+                "The Eternals are a team of ancient aliens who have been living on Earth in secret for thousands" +
+                " of years. When an unexpected tragedy forces them out of the shadows, they are forced to reunite " +
+                "against mankind’s most ancient enemy, the Deviants."
+        });
+        movies.Add(new Movie()
+        {
+            ID = 3, title = "Venom: Let There Be Carnage",
             overview = "After finding a host body in investigative reporter Eddie Brock, the alien symbiote must face" +
-                       " a new enemy, Carnage, the alter ego of serial killer Cletus Kasady."});
+                       " a new enemy, Carnage, the alter ego of serial killer Cletus Kasady."
+        });
     }
 
     public string InfoMessage { get; set; } = "";
@@ -42,21 +52,11 @@ public class MovieViewModel : IMovieViewModel
         get
         {
             return movies.Where(x => x.title.ToLower().Contains(SearchTerm.ToLower())
-                                        || x.title.ToLower().Contains(SearchTerm.ToLower())).ToList();
+                                     || x.title.ToLower().Contains(SearchTerm.ToLower())).ToList();
         }
     }
 
     public Movie SelectedMovie { get; set; }
-
-    public async Task MovieSelected(ChangeEventArgs args)
-    {
-        InfoMessage = "";
-        ErrorMessage = "";
-        Adding = false;
-        await Task.Delay(0);
-        SelectedMovie = (from x in movies where x.ID == Convert.ToInt32(args.Value.ToString()) select x)
-            .FirstOrDefault();
-    }
 
     public void NewMovie()
     {
@@ -112,16 +112,14 @@ public class MovieViewModel : IMovieViewModel
         }
     }
 
-    public async Task DeleteSelectedMovie()
+    public async Task DeleteMovie(Movie movie)
     {
         InfoMessage = "";
         ErrorMessage = "";
-        Adding = false;
         await Task.Delay(0);
         try
         {
-            movies.Remove(SelectedMovie);
-            SelectedMovie = null;
+            movies.Remove(movie);
             InfoMessage = "Movie deleted.";
         }
         catch
