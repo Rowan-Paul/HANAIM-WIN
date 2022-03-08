@@ -38,12 +38,24 @@ public class MovieViewModel : IMovieViewModel
             overview = "After finding a host body in investigative reporter Eddie Brock, the alien symbiote must face" +
                        " a new enemy, Carnage, the alter ego of serial killer Cletus Kasady."
         });
+        movies.Add(new Movie ()
+        {
+            ID= 4, title = "Shang-Chi and the Legend of the Ten Rings",
+            overview = "Shang-Chi must confront the past he thought he left behind when he is drawn into the web " +
+                       "of the mysterious Ten Rings organization."
+        });
+        movies.Add(new Movie()
+        {
+            ID=5, title = "Free Guy", 
+            overview = "A bank teller called Guy realizes he is a background character in an open world video game " +
+                       "called Free City that will soon go offline."
+        });
     }
 
     public string InfoMessage { get; set; } = "";
     public string ErrorMessage { get; set; } = "";
     public string SearchTerm { get; set; } = "";
-    public bool Adding { get; set; } = false;
+    public bool ShowCreateMovieForm { get; set; } = false;
 
     private List<Movie> movies = new List<Movie>();
 
@@ -62,16 +74,15 @@ public class MovieViewModel : IMovieViewModel
     {
         InfoMessage = "";
         ErrorMessage = "";
-        Adding = true;
         SelectedMovie = new Movie();
-        SelectedMovie.ID = movies.Count + 1;
+        ShowCreateMovieForm = true;
     }
 
     public async Task<Movie> GetMovie(int id)
     {
         InfoMessage = "";
         ErrorMessage = "";
-        Adding = false;
+        ShowCreateMovieForm = false;
         await Task.Delay(0);
         return (from x in movies where x.ID == id select x).FirstOrDefault();
     }
@@ -80,7 +91,7 @@ public class MovieViewModel : IMovieViewModel
     {
         InfoMessage = "";
         ErrorMessage = "";
-        Adding = false;
+        ShowCreateMovieForm = false;
         await Task.Delay(0);
         var cust = (from x in movies where x.ID == SelectedMovie.ID select x).FirstOrDefault();
         if (cust != null)
@@ -99,7 +110,7 @@ public class MovieViewModel : IMovieViewModel
     {
         InfoMessage = "";
         ErrorMessage = "";
-        Adding = false;
+        ShowCreateMovieForm = false;
         await Task.Delay(0);
         try
         {

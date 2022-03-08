@@ -8,7 +8,7 @@ public interface IMovieViewModel
     string InfoMessage { get; set; }
     string ErrorMessage { get; set; }
     string SearchTerm { get; set; }
-    bool Adding { get; set; }
+    bool ShowCreateMovieForm { get; set; }
     void NewMovie();
     List<Movie> Movies { get; }
     Movie SelectedMovie { get; set; }

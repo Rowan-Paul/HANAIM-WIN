@@ -3,14 +3,39 @@
 
 <PageTitle>Admin page</PageTitle>
 
-<h1>Manage movies</h1>
+<div class="d-flex">
+    <h1 class="">Manage movies</h1>
+    <button class="btn btn-primary" style="margin-left: auto" @onclick="_movieVm.NewMovie">Add movie</button>
+</div>
 <div class="text-primary">@_movieVm.InfoMessage</div>
-<div class="text-danger">@_movieVm.InfoMessage</div>
+<div class="text-danger">@_movieVm.ErrorMessage</div>
 
-<input class="my-3" @bind="_movieVm.SearchTerm" @bind:event="oninput" placeholder="Search movie"/>
+@if (_movieVm.ShowCreateMovieForm)
+{
+    <div class="card my-3">
+        <div class="card-body">
+            <h2 class="card-title">Add movie</h2>
+            <div class="card-text">
+                <div class="mb-2">
+                    <div class="fw-bold">Title</div>
+                    <input @bind="_movieVm.SelectedMovie.title"/>
+                </div>
+                <div>
+                    <div class="fw-bold">Overview</div>
+                    <textarea @bind="_movieVm.SelectedMovie.overview"/>
+                </div>
+                <button class="btn btn-primary mt-3" @onclick="_movieVm.AddMovie">Add</button>
+            </div>
+        </div>
+    </div>
+}
+
+<h2>Search</h2>
+<input class="my-3 d-block" @bind="_movieVm.SearchTerm" @bind:event="oninput" placeholder="Search movie"/>
 
 
-<div>Results: @_movieVm.Movies.Count</div>
+<h2>Results</h2>
+<div>@_movieVm.Movies.Count found</div>
 <div class="container">
     <div class="row">
         @foreach (var m in _movieVm.Movies)
@@ -18,7 +43,7 @@
             <div class="col-3 card">
                 <div class="card-body d-flex flex-column">
                     <div class="card-title fw-bold" value="@m.ID">@m.title</div>
-                    <div class="card-tex mb-2">@m.overview</div>
+                    <div class="card-text mb-2">@m.overview</div>
                     <div class="btn btn-danger mt-auto" @onclick="() => _movieVm.DeleteMovie(m)">Remove</div>
                 </div>
             </div>
