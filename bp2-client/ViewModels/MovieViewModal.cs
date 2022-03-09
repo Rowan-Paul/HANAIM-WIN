@@ -1,74 +1,43 @@
-﻿using bp2_client.Models;
-using Microsoft.AspNetCore.Components;
+﻿using System.Text;
+using bp2_client.Models;
+using Newtonsoft.Json;
 
 namespace bp2_client.ViewModels;
 
 public class MovieViewModel : IMovieViewModel
 {
-    // You would use an API Manager in the ViewModel to do CRUD operations.
-
-    public MovieViewModel()
-    {
-        InitializeViewModel().GetAwaiter().GetResult();
-    }
-
-    public async Task InitializeViewModel() // Could accept a primary key, etc.
-    {
-        await Task.Delay(0); //delete after actual async thing
-        // initialize here
-        movies = new List<Movie>();
-        movies.Add(new Movie()
-        {
-            ID = 1, title = "Red Notice",
-            overview = "An Interpol-issued Red Notice is a global alert to hunt and capture the world's most wanted. " +
-                       "But when a daring heist brings together the FBI's top profiler and two rival criminals, " +
-                       "there's no telling what will happen."
-        });
-        movies.Add(new Movie()
-        {
-            ID = 2, title = "Eternals",
-            overview =
-                "The Eternals are a team of ancient aliens who have been living on Earth in secret for thousands" +
-                " of years. When an unexpected tragedy forces them out of the shadows, they are forced to reunite " +
-                "against mankind’s most ancient enemy, the Deviants."
-        });
-        movies.Add(new Movie()
-        {
-            ID = 3, title = "Venom: Let There Be Carnage",
-            overview = "After finding a host body in investigative reporter Eddie Brock, the alien symbiote must face" +
-                       " a new enemy, Carnage, the alter ego of serial killer Cletus Kasady."
-        });
-        movies.Add(new Movie ()
-        {
-            ID= 4, title = "Shang-Chi and the Legend of the Ten Rings",
-            overview = "Shang-Chi must confront the past he thought he left behind when he is drawn into the web " +
-                       "of the mysterious Ten Rings organization."
-        });
-        movies.Add(new Movie()
-        {
-            ID=5, title = "Free Guy", 
-            overview = "A bank teller called Guy realizes he is a background character in an open world video game " +
-                       "called Free City that will soon go offline."
-        });
-    }
+    private HttpClient _http = new();
 
     public string InfoMessage { get; set; } = "";
     public string ErrorMessage { get; set; } = "";
     public string SearchTerm { get; set; } = "";
-    public bool ShowCreateMovieForm { get; set; } = false;
-
-    private List<Movie> movies = new List<Movie>();
+    public Movie SelectedMovie { get; set; } = new();
+    public bool ShowCreateMovieForm { get; set; }
+    private List<Movie> _movies = new();
 
     public List<Movie> Movies
     {
         get
         {
-            return movies.Where(x => x.title.ToLower().Contains(SearchTerm.ToLower())
-                                     || x.title.ToLower().Contains(SearchTerm.ToLower())).ToList();
+            return _movies.Where(x => x.title.ToLower().Contains(SearchTerm.ToLower())
+                                      || x.title.ToLower().Contains(SearchTerm.ToLower())).ToList();
         }
     }
 
-    public Movie SelectedMovie { get; set; }
+    public async Task RetrieveMoviesAsync()
+    {
+        try
+        {
+            Movie[] temp = await _http.GetFromJsonAsync<Movie[]>("https://localhost:44390/api/movies") ??
+                           Array.Empty<Movie>();
+            _movies = temp.ToList();
+        }
+        catch
+        {
+            ErrorMessage = "Failed to get movies";
+        }
+    }
+
 
     public void NewMovie()
     {
@@ -84,7 +53,7 @@ public class MovieViewModel : IMovieViewModel
         ErrorMessage = "";
         ShowCreateMovieForm = false;
         await Task.Delay(0);
-        return (from x in movies where x.ID == id select x).FirstOrDefault();
+        return (from x in _movies where x.ID == id select x).FirstOrDefault()!;
     }
 
     public async Task UpdateSelectedMovie()
@@ -93,11 +62,11 @@ public class MovieViewModel : IMovieViewModel
         ErrorMessage = "";
         ShowCreateMovieForm = false;
         await Task.Delay(0);
-        var cust = (from x in movies where x.ID == SelectedMovie.ID select x).FirstOrDefault();
-        if (cust != null)
+        var m = (from x in _movies where x.ID == SelectedMovie.ID select x).FirstOrDefault();
+        if (m != null)
         {
-            var index = movies.IndexOf(cust);
-            movies[index] = SelectedMovie;
+            var index = _movies.IndexOf(m);
+            _movies[index] = SelectedMovie;
             InfoMessage = "Movie updated.";
         }
         else
@@ -111,11 +80,23 @@ public class MovieViewModel : IMovieViewModel
         InfoMessage = "";
         ErrorMessage = "";
         ShowCreateMovieForm = false;
-        await Task.Delay(0);
+
         try
         {
-            movies.Add(SelectedMovie);
-            InfoMessage = "Movie added.";
+            var json = JsonConvert.SerializeObject(SelectedMovie);
+            var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+            
+            var response = await _http.PostAsync("https://localhost:44390/api/movies", stringContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                _movies.Add(SelectedMovie);
+                InfoMessage = "Movie added.";
+            }
+            else
+            {
+                ErrorMessage = "Could not add movie.";
+            }
         }
         catch
         {
@@ -127,15 +108,24 @@ public class MovieViewModel : IMovieViewModel
     {
         InfoMessage = "";
         ErrorMessage = "";
-        await Task.Delay(0);
+
         try
         {
-            movies.Remove(movie);
-            InfoMessage = "Movie deleted.";
+            var response = await _http.DeleteAsync($"https://localhost:44390/api/movies/{movie.ID}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                _movies.Remove(movie);
+                InfoMessage = "Movie deleted.";
+            }
+            else
+            {
+                ErrorMessage = "Failed to delete movie";
+            }
         }
         catch
         {
-            ErrorMessage = "Movie not found.";
+            ErrorMessage = "Failed to delete movie";
         }
     }
 }

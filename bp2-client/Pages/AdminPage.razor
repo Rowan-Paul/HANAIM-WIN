@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     <div class="fw-bold">Overview</div>
-                    <textarea @bind="_movieVm.SelectedMovie.overview"/>
+                    <textarea @bind="_movieVm.SelectedMovie.overview"></textarea>
                 </div>
                 <button class="btn btn-primary mt-3" @onclick="_movieVm.AddMovie">Add</button>
             </div>
@@ -50,3 +50,12 @@
         }
     </div>
 </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await _movieVm.RetrieveMoviesAsync();
+    }
+
+}

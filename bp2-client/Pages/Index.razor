@@ -8,6 +8,7 @@
 <div class="text-danger">@_movieVm.ErrorMessage</div>
 
 <div>Results: @_movieVm.Movies.Count</div>
+
 <div class="container">
     <div class="row">
         @foreach (var m in _movieVm.Movies)
@@ -21,3 +22,12 @@
         }
     </div>
 </div>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await _movieVm.RetrieveMoviesAsync();
+    }
+
+}
