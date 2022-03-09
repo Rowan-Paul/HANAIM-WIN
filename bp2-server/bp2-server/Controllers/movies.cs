@@ -12,23 +12,23 @@ namespace bp2_server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class movie : ControllerBase
+    public class movies : ControllerBase
     {
         private readonly MovieContext _context;
 
-        public movie(MovieContext context)
+        public movies(MovieContext context)
         {
             _context = context;
         }
 
-        // GET: api/movie
+        // GET: api/movies
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
         {
             return await _context.Movies.ToListAsync();
         }
 
-        // GET: api/movie/5
+        // GET: api/movies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Movie>> GetMovie(int id)
         {
@@ -42,7 +42,7 @@ namespace bp2_server.Controllers
             return movie;
         }
 
-        // PUT: api/movie/5
+        // PUT: api/movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovie(int id, Movie movie)
@@ -73,7 +73,7 @@ namespace bp2_server.Controllers
             return NoContent();
         }
 
-        // POST: api/movie
+        // POST: api/movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
@@ -84,7 +84,7 @@ namespace bp2_server.Controllers
             return CreatedAtAction(nameof(GetMovie), new { id = movie.ID }, movie);
         }
 
-        // DELETE: api/movie/5
+        // DELETE: api/movies/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(int id)
         {
