@@ -23,6 +23,9 @@ namespace bp1_chatapp
 
             stopServerButton.Visible = false;
             chatBox.SelectedIndex = chatBox.Items.Count - 1;
+            ipInput.Text = "127.0.0.1";
+            portInput.Text = "3000";
+            bufferInput.Text = "256";
         }
 
         /*
@@ -142,21 +145,33 @@ namespace bp1_chatapp
          */
         private void startServerButton_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(portInput.Text, out var port) &&
-                int.TryParse(bufferInput.Text, out var bufferSize) &&
-                IPAddress.TryParse(ipInput.Text, out IPAddress ip))
+            if (int.TryParse(portInput.Text, out var port) && port <= 65535 && port > 0)
             {
-                ipInput.Enabled = false;
-                portInput.Enabled = false;
-                bufferInput.Enabled = false;
-                startServerButton.Visible = false;
-                stopServerButton.Visible = true;
+                if (int.TryParse(bufferInput.Text, out var bufferSize) && bufferSize > 0 && bufferSize < 1024)
+                {
+                    if (IPAddress.TryParse(ipInput.Text, out var ip))
+                    {
+                        ipInput.Enabled = false;
+                        portInput.Enabled = false;
+                        bufferInput.Enabled = false;
+                        startServerButton.Visible = false;
+                        stopServerButton.Visible = true;
 
-                CreateServer(ip, port, bufferSize);
+                        CreateServer(ip, port, bufferSize);
+                    }
+                    else
+                    {
+                        chatBox.Items.Add("IP not correct");
+                    }
+                }
+                else
+                {
+                    chatBox.Items.Add("Buffersize not correct");
+                }
             }
             else
             {
-                chatBox.Items.Add("IP, port or buffersize not correct");
+                chatBox.Items.Add("Port not correct");
             }
         }
 
@@ -187,7 +202,7 @@ namespace bp1_chatapp
                 Console.WriteLine("Server {0}", exception);
             }
         }
-        
+
         /*
          * When closing server by window, stop server
          */
@@ -195,8 +210,10 @@ namespace bp1_chatapp
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                DialogResult result = MessageBox.Show("Are you sure you want to close the server this will also shut it down?", "Close Server", MessageBoxButtons.YesNo);
-
+                DialogResult result =
+                    MessageBox.Show("Are you sure you want to shut down the server?",
+                        "Close Server", MessageBoxButtons.YesNo);
+                
                 if (result == DialogResult.Yes)
                 {
                     stopServerButton.PerformClick();

@@ -21,6 +21,10 @@ namespace bp1_chatapp
 
             disconnectButton.Visible = false;
             sendButton.Enabled = false;
+            usernameInput.Text = "user";
+            ipInput.Text = "127.0.0.1";
+            portInput.Text = "3000";
+            bufferSizeInput.Text = "256";
         }
 
         /**
@@ -117,32 +121,42 @@ namespace bp1_chatapp
          */
         private void connectButton_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(portInput.Text, out var port) &&
-                int.TryParse(bufferSizeInput.Text, out var bufferSize) &&
-                IPAddress.TryParse(ipInput.Text, out var ip))
+            if (int.TryParse(portInput.Text, out var port) && port <= 65535 && port > 0)
             {
-                if (port <= 65535 && port > 0 &&
-                    bufferSize > 0 && bufferSize < 1024 &&
-                    usernameInput.Text.Length > 0 && usernameInput.Text.Length < 20)
+                if (int.TryParse(bufferSizeInput.Text, out var bufferSize) && bufferSize > 0 && bufferSize < 1024)
                 {
-                    ipInput.Enabled = false;
-                    portInput.Enabled = false;
-                    usernameInput.Enabled = false;
-                    bufferSizeInput.Enabled = false;
-                    connectButton.Visible = false;
-                    disconnectButton.Visible = true;
-                    sendButton.Enabled = true;
+                    if (IPAddress.TryParse(ipInput.Text, out var ip))
+                    {
+                        if (usernameInput.Text.Length > 0 && usernameInput.Text.Length < 20)
+                        {
+                            ipInput.Enabled = false;
+                            portInput.Enabled = false;
+                            usernameInput.Enabled = false;
+                            bufferSizeInput.Enabled = false;
+                            connectButton.Visible = false;
+                            disconnectButton.Visible = true;
+                            sendButton.Enabled = true;
 
-                    ConnectServer(ip, port, bufferSize);
+                            ConnectServer(ip, port, bufferSize);
+                        }
+                        else
+                        {
+                            chatBox.Items.Add("Username not correct");
+                        }
+                    }
+                    else
+                    {
+                        chatBox.Items.Add("IP not correct");
+                    }
                 }
                 else
                 {
-                    chatBox.Items.Add("Username, IP, port or buffer size too long or short");
+                    chatBox.Items.Add("Buffersize not correct");
                 }
             }
             else
             {
-                chatBox.Items.Add("Username, IP, port or buffer size not correct");
+                chatBox.Items.Add("Port not correct");
             }
         }
 
