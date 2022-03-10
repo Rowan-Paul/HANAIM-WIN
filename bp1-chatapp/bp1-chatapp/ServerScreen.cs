@@ -187,5 +187,25 @@ namespace bp1_chatapp
                 Console.WriteLine("Server {0}", exception);
             }
         }
+        
+        /*
+         * When closing server by window, stop server
+         */
+        private void ServerScreen_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to close the server this will also shut it down?", "Close Server", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    stopServerButton.PerformClick();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
     }
 }

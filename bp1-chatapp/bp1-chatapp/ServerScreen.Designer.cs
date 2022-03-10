@@ -33,6 +33,7 @@ namespace bp1_chatapp
         {
             this.chatBox = new System.Windows.Forms.ListBox();
             this.createServerGroupBox = new System.Windows.Forms.GroupBox();
+            this.stopServerButton = new System.Windows.Forms.Button();
             this.ipInput = new System.Windows.Forms.TextBox();
             this.ipLabel = new System.Windows.Forms.Label();
             this.portInput = new System.Windows.Forms.TextBox();
@@ -40,22 +41,22 @@ namespace bp1_chatapp
             this.startServerButton = new System.Windows.Forms.Button();
             this.bufferInput = new System.Windows.Forms.TextBox();
             this.bufferLabel = new System.Windows.Forms.Label();
-            this.stopServerButton = new System.Windows.Forms.Button();
             this.createServerGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // chatBox
             // 
+            this.chatBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.chatBox.FormattingEnabled = true;
             this.chatBox.Location = new System.Drawing.Point(9, 10);
             this.chatBox.Margin = new System.Windows.Forms.Padding(2);
             this.chatBox.Name = "chatBox";
             this.chatBox.Size = new System.Drawing.Size(427, 316);
             this.chatBox.TabIndex = 0;
-            this.chatBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // createServerGroupBox
             // 
+            this.createServerGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.createServerGroupBox.Controls.Add(this.stopServerButton);
             this.createServerGroupBox.Controls.Add(this.ipInput);
             this.createServerGroupBox.Controls.Add(this.ipLabel);
@@ -72,48 +73,59 @@ namespace bp1_chatapp
             this.createServerGroupBox.TabIndex = 1;
             this.createServerGroupBox.TabStop = false;
             this.createServerGroupBox.Text = "Start server";
-            this.createServerGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            // 
+            // stopServerButton
+            // 
+            this.stopServerButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.stopServerButton.Location = new System.Drawing.Point(9, 136);
+            this.stopServerButton.Margin = new System.Windows.Forms.Padding(2);
+            this.stopServerButton.Name = "stopServerButton";
+            this.stopServerButton.Size = new System.Drawing.Size(133, 27);
+            this.stopServerButton.TabIndex = 0;
+            this.stopServerButton.Text = "Stop server";
+            this.stopServerButton.Click += new System.EventHandler(this.stopServerButton_Click);
             // 
             // ipInput
             // 
+            this.ipInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ipInput.Location = new System.Drawing.Point(9, 40);
             this.ipInput.Margin = new System.Windows.Forms.Padding(2);
             this.ipInput.Name = "ipInput";
             this.ipInput.Size = new System.Drawing.Size(134, 20);
             this.ipInput.TabIndex = 0;
-            this.ipInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // ipLabel
             // 
+            this.ipLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.ipLabel.Location = new System.Drawing.Point(9, 26);
             this.ipLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ipLabel.Name = "ipLabel";
             this.ipLabel.Size = new System.Drawing.Size(75, 19);
             this.ipLabel.TabIndex = 9;
             this.ipLabel.Text = "IP address";
-            this.ipLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // portInput
             // 
+            this.portInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.portInput.Location = new System.Drawing.Point(9, 76);
             this.portInput.Margin = new System.Windows.Forms.Padding(2);
             this.portInput.Name = "portInput";
             this.portInput.Size = new System.Drawing.Size(134, 20);
             this.portInput.TabIndex = 1;
-            this.portInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // portLabel
             // 
+            this.portLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.portLabel.Location = new System.Drawing.Point(9, 63);
             this.portLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.portLabel.Name = "portLabel";
             this.portLabel.Size = new System.Drawing.Size(75, 19);
             this.portLabel.TabIndex = 7;
             this.portLabel.Text = "Port";
-            this.portLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // startServerButton
             // 
+            this.startServerButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.startServerButton.Location = new System.Drawing.Point(9, 136);
             this.startServerButton.Margin = new System.Windows.Forms.Padding(2);
             this.startServerButton.Name = "startServerButton";
@@ -122,37 +134,25 @@ namespace bp1_chatapp
             this.startServerButton.Text = "Start server";
             this.startServerButton.UseVisualStyleBackColor = true;
             this.startServerButton.Click += new System.EventHandler(this.startServerButton_Click);
-            this.startServerButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // bufferInput
             // 
+            this.bufferInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.bufferInput.Location = new System.Drawing.Point(9, 113);
             this.bufferInput.Margin = new System.Windows.Forms.Padding(2);
             this.bufferInput.Name = "bufferInput";
             this.bufferInput.Size = new System.Drawing.Size(134, 20);
             this.bufferInput.TabIndex = 2;
-            this.bufferInput.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // bufferLabel
             // 
+            this.bufferLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.bufferLabel.Location = new System.Drawing.Point(9, 99);
             this.bufferLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.bufferLabel.Name = "bufferLabel";
             this.bufferLabel.Size = new System.Drawing.Size(75, 19);
             this.bufferLabel.TabIndex = 2;
             this.bufferLabel.Text = "Buffer size";
-            this.bufferLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            // 
-            // stopServerButton
-            // 
-            this.stopServerButton.Location = new System.Drawing.Point(9, 136);
-            this.stopServerButton.Margin = new System.Windows.Forms.Padding(2);
-            this.stopServerButton.Name = "stopServerButton";
-            this.stopServerButton.Size = new System.Drawing.Size(133, 27);
-            this.stopServerButton.TabIndex = 0;
-            this.stopServerButton.Text = "Stop server";
-            this.stopServerButton.Click += new System.EventHandler(this.stopServerButton_Click);
-            this.stopServerButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             // 
             // ServerScreen
             // 
@@ -164,6 +164,7 @@ namespace bp1_chatapp
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ServerScreen";
             this.Text = "Rchat server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ServerScreen_FormClosing);
             this.createServerGroupBox.ResumeLayout(false);
             this.createServerGroupBox.PerformLayout();
             this.ResumeLayout(false);
