@@ -44,9 +44,7 @@ namespace bp2_client.ViewModels
 
         private async void LoadBooks()
         {
-            _books.Add(new Book{ID=1, Title = "Dune", Overview = "Fear is the mind killer"});
-            _books.Add(new Book{ID=2, Title = "Game of Thrones", Overview = "You either win or die"});
-            /*const string url = "https://localhost:7275/api/books";
+            const string url = "https://localhost:7072/api/books";
 
             HttpClient client = new();
 
@@ -65,12 +63,12 @@ namespace bp2_client.ViewModels
             catch (HttpRequestException)
             {
                 ErrorMessage = "Failed to fetch books";
-            }*/
+            }
         }
 
         async void ExecuteCreateBooks(object parameter)
         {
-            const string url = "https://localhost:7275/api/books";
+            const string url = "https://localhost:7072/api/books";
 
             HttpClient client = new();
 
@@ -99,7 +97,7 @@ namespace bp2_client.ViewModels
 
         async void ExecuteDeleteBook(object id)
         {
-            var url = "https://localhost:7275/api/books/" + (int)id;
+            var url = "https://localhost:7072/api/books/" + (int)id;
 
             HttpClient client = new HttpClient();
 

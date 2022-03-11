@@ -20,27 +20,32 @@
         <ListBox ItemsSource="{Binding BooksCollection}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+                    <Border Name="border" BorderBrush="Black" BorderThickness="0.5"
+                            Padding="10" Margin="2 5" CornerRadius="10">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="500" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Title:" />
-                        <TextBlock Grid.Row="1" Text="{Binding Title}" />
-                        <TextBlock Grid.Row="2" Text="Overview:" />
-                        <TextBlock Grid.Row="3" Text="{Binding Overview}" />
-                        <Button
-                            Grid.Row="4"
-                            Command="{Binding Source={StaticResource Books}, 
+                            <TextBlock FontSize="16" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Title}" />
+                            <TextBlock Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" Text="{Binding Overview}" />
+
+                            <StackPanel Grid.Row="2" Grid.Column="1" Margin="10">
+                                <Button
+                                    Command="{Binding Source={StaticResource Books}, 
                                 Path=DeleteBookCommand}"
-                            CommandParameter="{Binding ID}">
-                            Delete
-                        </Button>
-                    </Grid>
+                                    CommandParameter="{Binding ID}" Padding="10">
+                                    Delete
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
