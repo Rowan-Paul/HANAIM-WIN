@@ -18,7 +18,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="4*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -41,7 +41,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="500" />
+                                <ColumnDefinition Width="8*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
@@ -89,7 +89,7 @@
                     Create
                 </Button>
             </StackPanel>
-            <TextBlock Grid.Row="6" TextWrapping="Wrap" Text="{Binding ErrorMessage}" />
+            <TextBlock Grid.Row="6" TextWrapping="Wrap" Foreground="Red" Text="{Binding ErrorMessage}" />
         </Grid>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Http.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -54,7 +55,7 @@ namespace bp2_client.ViewModels
             {
                 var response = await client.GetFromJsonAsync<List<Book>>(url);
 
-                if (response != null)
+                if (response != null || response.Count > 0)
                 {
                     _books.Clear();
                     foreach (var item in response)
@@ -85,7 +86,8 @@ namespace bp2_client.ViewModels
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _newBook = new Book();
+                    _newBook.Title = "";
+                    _newBook.Overview = "";
                     LoadBooks();
                 }
                 else
