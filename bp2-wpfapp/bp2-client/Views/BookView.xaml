@@ -17,7 +17,10 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding BooksCollection}">
+        <ListBox ItemsSource="{Binding BooksCollection}"
+                 ScrollViewer.CanContentScroll="True"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 Height="450">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border Name="border" BorderBrush="Black" BorderThickness="0.5"
