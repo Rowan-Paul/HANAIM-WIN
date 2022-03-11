@@ -88,6 +88,9 @@ namespace bp2_client.ViewModels
                 {
                     _newBook.Title = "";
                     _newBook.Overview = "";
+                    OnPropertyChanged(NewBook.Title);
+                    OnPropertyChanged(NewBook.Overview);
+                    
                     LoadBooks();
                 }
                 else
