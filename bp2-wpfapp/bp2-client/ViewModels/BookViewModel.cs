@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
@@ -12,16 +13,17 @@ namespace bp2_client.ViewModels
         ObservableCollection<Book> _books = new();
         Book _newBook = new();
         string _errorMessage = "";
-        
+
         public IDelegateCommand CreateBookCommand { protected set; get; }
         public IDelegateCommand DeleteBookCommand { protected set; get; }
 
-        
-        public ObservableCollection<Book> BooksCollection {
+
+        public ObservableCollection<Book> BooksCollection
+        {
             get { return _books; }
             set { SetProperty(ref _books, value); }
         }
-        
+
         public Books()
         {
             CreateBookCommand = new DelegateCommand(ExecuteCreateBooks);
@@ -66,7 +68,7 @@ namespace bp2_client.ViewModels
             }
         }
 
-        async void ExecuteCreateBooks(object parameter)
+        private async void ExecuteCreateBooks(object parameter)
         {
             const string url = "https://localhost:7072/api/books";
 
@@ -88,6 +90,10 @@ namespace bp2_client.ViewModels
                         _books.Add(newBook);
                     }
                 }
+                else
+                {
+                    throw new HttpRequestException();
+                }
             }
             catch (HttpRequestException)
             {
@@ -97,7 +103,7 @@ namespace bp2_client.ViewModels
 
         async void ExecuteDeleteBook(object id)
         {
-            var url = "https://localhost:7072/api/books/" + (int)id;
+            var url = "https://localhost:7072/api/books/" + (int) id;
 
             HttpClient client = new HttpClient();
 
@@ -107,7 +113,7 @@ namespace bp2_client.ViewModels
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Book book = _books.First((item) => item.ID == (int)id);
+                    Book book = _books.First((item) => item.ID == (int) id);
 
                     _books.Remove(book);
                 }

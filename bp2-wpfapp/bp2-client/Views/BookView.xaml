@@ -16,8 +16,36 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="168" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-        <ListBox ItemsSource="{Binding BooksCollection}"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="AUto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock FontSize="16" Padding="5 10 5 5">Add book</TextBlock>
+            <Label Grid.Row="1" Content="Title" FontSize="13" />
+            <TextBox Grid.Row="2" Text="{Binding NewBook.Title}" Margin="5 10" />
+
+            <Label Grid.Row="3" Content="Overview" FontSize="13" />
+            <TextBox Grid.Row="4" Text="{Binding NewBook.Overview}" Margin="5"
+                     TextWrapping="Wrap" />
+            <Button Grid.Row="5" Margin="10" Padding="10">
+                Add book
+            </Button>
+            <TextBlock Grid.Row="6" TextWrapping="Wrap" Text="{Binding ErrorMessage}" />
+        </Grid>
+        
+        <ListBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding BooksCollection}"
                  ScrollViewer.CanContentScroll="True"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  Height="450">
