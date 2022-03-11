@@ -116,9 +116,7 @@ namespace bp2_client.ViewModels
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Book book = _books.First((item) => item.ID == (int) id);
-
-                    _books.Remove(book);
+                    LoadBooks();
                 }
             }
             catch (HttpRequestException)
