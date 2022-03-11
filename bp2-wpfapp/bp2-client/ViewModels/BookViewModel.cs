@@ -9,7 +9,7 @@ namespace bp2_client.ViewModels
 {
     public class Books : ViewModelBase
     {
-        ObservableCollection<Book> _books = new();
+        private ObservableCollection<Book> _books = new();
         private Book _newBook = new();
         private string _errorMessage = "";
         private const string ApiUrl = "https://localhost:7072/";
@@ -85,9 +85,7 @@ namespace bp2_client.ViewModels
 
                 if (response.IsSuccessStatusCode)
                 {
-                    _newBook.Title = "";
-                    _newBook.Overview = "";
-
+                    _newBook = new Book();
                     LoadBooks();
                 }
                 else

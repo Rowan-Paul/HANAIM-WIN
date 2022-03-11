@@ -16,16 +16,21 @@
           ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ListBox ItemsSource="{Binding BooksCollection}"
-                 Height="450">
-            <ListBox.ItemTemplate>
+        <ItemsControl ItemsSource="{Binding BooksCollection}" Height="410">
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <ScrollViewer x:Name="ScrollViewer" Padding="10">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Name="border" BorderBrush="Black" BorderThickness="0.5"
                             Padding="10" Margin="2 5" CornerRadius="10">
@@ -54,8 +59,8 @@
                         </Grid>
                     </Border>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         
         
         <Grid Grid.Row="0" Grid.Column="1" Margin="10 0">
