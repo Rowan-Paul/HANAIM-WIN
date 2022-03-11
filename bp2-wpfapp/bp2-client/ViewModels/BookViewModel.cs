@@ -1,44 +1,123 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using bp2_client.Models;
 
-sealed class MyViewModel : INotifyPropertyChanged
+namespace bp2_client.ViewModels
 {
-    private Book _book;
-    
-    public string Title { 
-        get {return _book.Title;} 
-        set {
-            if(_book.Title != value) {
-                _book.Title = value;
-                OnPropertyChange("Title");
+    public class Books : ViewModelBase
+    {
+        ObservableCollection<Book> _books = new();
+        Book _newBook = new();
+        string _errorMessage = "";
+        
+        public IDelegateCommand CreateBookCommand { protected set; get; }
+        public IDelegateCommand DeleteBookCommand { protected set; get; }
+
+        
+        public ObservableCollection<Book> BooksCollection {
+            get { return _books; }
+            set { SetProperty(ref _books, value); }
+        }
+        
+        public Books()
+        {
+            CreateBookCommand = new DelegateCommand(ExecuteCreateBooks);
+            DeleteBookCommand = new DelegateCommand(ExecuteDeleteBook);
+
+            LoadBooks();
+        }
+
+        public Book NewBook
+        {
+            get => _newBook;
+            set => SetProperty(ref _newBook, value);
+        }
+
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
+        private async void LoadBooks()
+        {
+            _books.Add(new Book{ID=1, Title = "Dune", Overview = "Fear is the mind killer"});
+            _books.Add(new Book{ID=2, Title = "Game of Thrones", Overview = "You either win or die"});
+            /*const string url = "https://localhost:7275/api/books";
+
+            HttpClient client = new();
+
+            try
+            {
+                var response = await client.GetFromJsonAsync<List<Book>>(url);
+
+                if (response != null)
+                {
+                    foreach (var item in response)
+                    {
+                        _books.Add(item);
+                    }
+                }
+            }
+            catch (HttpRequestException)
+            {
+                ErrorMessage = "Failed to fetch books";
+            }*/
+        }
+
+        async void ExecuteCreateBooks(object parameter)
+        {
+            const string url = "https://localhost:7275/api/books";
+
+            HttpClient client = new();
+
+            try
+            {
+                var response = await client.PostAsJsonAsync(url, _newBook);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    _newBook.Title = "";
+                    _newBook.Overview = "";
+
+                    var newBook = await client.GetFromJsonAsync<Book>(response.Headers.Location);
+
+                    if (newBook != null)
+                    {
+                        _books.Add(newBook);
+                    }
+                }
+            }
+            catch (HttpRequestException)
+            {
+                ErrorMessage = "Failed to add book to database";
             }
         }
-    }
 
-    public string Overview {
-        get { return _book.Overview; }
-        set {
-            if (_book.Overview != value) {
-                _book.Overview = value;
-                OnPropertyChange("Overview");
+        async void ExecuteDeleteBook(object id)
+        {
+            var url = "https://localhost:7275/api/books/" + (int)id;
+
+            HttpClient client = new HttpClient();
+
+            try
+            {
+                var response = await client.DeleteAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Book book = _books.First((item) => item.ID == (int)id);
+
+                    _books.Remove(book);
+                }
             }
-        }
-    }
-
-    public MyViewModel() {
-        _book = new Book {
-            ID = 1,
-            Title = "Dune",
-            Overview = "Fear is the mind killer",
-        };
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChange(string propertyName) {
-        if(PropertyChanged != null) {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            catch (HttpRequestException)
+            {
+                ErrorMessage = "Failed to remove todo";
+            }
         }
     }
 }

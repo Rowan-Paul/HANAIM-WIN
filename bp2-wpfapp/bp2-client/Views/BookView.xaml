@@ -3,17 +3,46 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:bp2_client.Views"
+        xmlns:viewModels1="clr-namespace:bp2_client.ViewModels"
         mc:Ignorable="d"
         Title="BookView" Height="450" Width="800">
 
-    <Grid>
+    <Window.Resources>
+        <viewModels1:Books x:Key="Books" />
+    </Window.Resources>
+
+    <Grid DataContext="{StaticResource ResourceKey=Books}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <Label Content="{Binding Title}"></Label>
-        <Label Grid.Row="1" Content="{Binding Overview}"></Label>
+
+        <ListBox ItemsSource="{Binding BooksCollection}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Title:" />
+                        <TextBlock Grid.Row="1" Text="{Binding Title}" />
+                        <TextBlock Grid.Row="2" Text="Overview:" />
+                        <TextBlock Grid.Row="3" Text="{Binding Overview}" />
+                        <Button
+                            Grid.Row="4"
+                            Command="{Binding Source={StaticResource Books}, 
+                                Path=DeleteBookCommand}"
+                            CommandParameter="{Binding ID}">
+                            Delete
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

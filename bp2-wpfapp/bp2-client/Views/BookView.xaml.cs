@@ -6,7 +6,5 @@ public partial class BookView : Window
 {
     public BookView() {
         InitializeComponent();
-        var viewModel = new MyViewModel();
-        DataContext = viewModel;
     }
 }
