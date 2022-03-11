@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Linq;
+using System.Net.Http.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Json;
 using bp2_client.Models;
 
 namespace bp2_client.ViewModels
@@ -11,8 +10,9 @@ namespace bp2_client.ViewModels
     public class Books : ViewModelBase
     {
         ObservableCollection<Book> _books = new();
-        Book _newBook = new();
-        string _errorMessage = "";
+        private Book _newBook = new();
+        private string _errorMessage = "";
+        private const string ApiUrl = "https://localhost:7072/";
 
         public IDelegateCommand CreateBookCommand { protected set; get; }
         public IDelegateCommand DeleteBookCommand { protected set; get; }
@@ -20,8 +20,8 @@ namespace bp2_client.ViewModels
 
         public ObservableCollection<Book> BooksCollection
         {
-            get { return _books; }
-            set { SetProperty(ref _books, value); }
+            get => _books;
+            set => SetProperty(ref _books, value);
         }
 
         public Books()
@@ -46,7 +46,7 @@ namespace bp2_client.ViewModels
 
         private async void LoadBooks()
         {
-            const string url = "https://localhost:7072/api/books";
+            const string url = ApiUrl + "api/books";
 
             HttpClient client = new();
 
@@ -56,10 +56,15 @@ namespace bp2_client.ViewModels
 
                 if (response != null)
                 {
+                    _books.Clear();
                     foreach (var item in response)
                     {
                         _books.Add(item);
                     }
+                }
+                else
+                {
+                    throw new HttpRequestException();
                 }
             }
             catch (HttpRequestException)
@@ -70,7 +75,7 @@ namespace bp2_client.ViewModels
 
         private async void ExecuteCreateBooks(object parameter)
         {
-            const string url = "https://localhost:7072/api/books";
+            const string url = ApiUrl + "api/books";
 
             HttpClient client = new();
 
@@ -83,12 +88,7 @@ namespace bp2_client.ViewModels
                     _newBook.Title = "";
                     _newBook.Overview = "";
 
-                    var newBook = await client.GetFromJsonAsync<Book>(response.Headers.Location);
-
-                    if (newBook != null)
-                    {
-                        _books.Add(newBook);
-                    }
+                    LoadBooks();
                 }
                 else
                 {
@@ -103,7 +103,7 @@ namespace bp2_client.ViewModels
 
         async void ExecuteDeleteBook(object id)
         {
-            var url = "https://localhost:7072/api/books/" + (int) id;
+            var url = ApiUrl + "api/books/" + (int) id;
 
             HttpClient client = new HttpClient();
 

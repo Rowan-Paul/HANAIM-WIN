@@ -11,43 +11,19 @@
         <viewModels1:Books x:Key="Books" />
     </Window.Resources>
 
-    <Grid DataContext="{StaticResource ResourceKey=Books}">
+    <Grid DataContext="{StaticResource ResourceKey=Books}" 
+          ScrollViewer.CanContentScroll="True"
+          ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="168" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="AUto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <TextBlock FontSize="16" Padding="5 10 5 5">Add book</TextBlock>
-            <Label Grid.Row="1" Content="Title" FontSize="13" />
-            <TextBox Grid.Row="2" Text="{Binding NewBook.Title}" Margin="5 10" />
-
-            <Label Grid.Row="3" Content="Overview" FontSize="13" />
-            <TextBox Grid.Row="4" Text="{Binding NewBook.Overview}" Margin="5"
-                     TextWrapping="Wrap" />
-            <Button Grid.Row="5" Margin="10" Padding="10">
-                Add book
-            </Button>
-            <TextBlock Grid.Row="6" TextWrapping="Wrap" Text="{Binding ErrorMessage}" />
-        </Grid>
-        
-        <ListBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding BooksCollection}"
-                 ScrollViewer.CanContentScroll="True"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+        <ListBox ItemsSource="{Binding BooksCollection}"
                  Height="450">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -80,5 +56,35 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        
+        
+        <Grid Grid.Row="0" Grid.Column="1" Margin="10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="AUto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock FontSize="16" Padding="5 10 5 5">Add book</TextBlock>
+            <Label Grid.Row="1" Content="Title" FontSize="13" />
+            <TextBox Grid.Row="2" Text="{Binding NewBook.Title}" Margin="5 10" />
+
+            <Label Grid.Row="3" Content="Overview" FontSize="13" />
+            <TextBox Grid.Row="4" Text="{Binding NewBook.Overview}" Margin="5"
+                     TextWrapping="Wrap" />
+            <StackPanel Grid.Row="5" Grid.Column="0" Margin="10">
+                <Button
+                    Command="{Binding Source={StaticResource Books}, 
+                                Path=CreateBookCommand}"
+                    Padding="10">
+                    Create
+                </Button>
+            </StackPanel>
+            <TextBlock Grid.Row="6" TextWrapping="Wrap" Text="{Binding ErrorMessage}" />
+        </Grid>
     </Grid>
 </Window>
