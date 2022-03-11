@@ -72,6 +72,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock FontSize="16" Padding="5 10 5 5">Add book</TextBlock>
@@ -90,6 +91,7 @@
                 </Button>
             </StackPanel>
             <TextBlock Grid.Row="6" TextWrapping="Wrap" Foreground="Red" Text="{Binding ErrorMessage}" />
+            <TextBlock Grid.Row="7" TextWrapping="Wrap" Foreground="Blue" Text="{Binding InfoMessage}" />
         </Grid>
     </Grid>
 </Window>

@@ -13,6 +13,7 @@ namespace bp2_client.ViewModels
         private ObservableCollection<Book> _books = new();
         private Book _newBook = new();
         private string _errorMessage = "";
+        private string _infoMessage = "";
         private const string ApiUrl = "https://localhost:7072/";
 
         public IDelegateCommand CreateBookCommand { protected set; get; }
@@ -44,6 +45,11 @@ namespace bp2_client.ViewModels
             get => _errorMessage;
             set => SetProperty(ref _errorMessage, value);
         }
+        public string InfoMessage
+        {
+            get => _infoMessage;
+            set => SetProperty(ref _infoMessage, value);
+        }
 
         private async void LoadBooks()
         {
@@ -70,6 +76,7 @@ namespace bp2_client.ViewModels
             }
             catch (HttpRequestException)
             {
+                InfoMessage = "";
                 ErrorMessage = "Failed to fetch books";
             }
         }
@@ -82,15 +89,22 @@ namespace bp2_client.ViewModels
 
             try
             {
+                if (string.IsNullOrEmpty(_newBook.Title) || string.IsNullOrEmpty(_newBook.Overview))
+                {
+                    throw new HttpRequestException();
+                }
+
                 var response = await client.PostAsJsonAsync(url, _newBook);
 
                 if (response.IsSuccessStatusCode)
                 {
                     _newBook.Title = "";
                     _newBook.Overview = "";
+                    ErrorMessage = "";
+                    InfoMessage = "Added book";
                     OnPropertyChanged(NewBook.Title);
                     OnPropertyChanged(NewBook.Overview);
-                    
+
                     LoadBooks();
                 }
                 else
@@ -100,6 +114,7 @@ namespace bp2_client.ViewModels
             }
             catch (HttpRequestException)
             {
+                InfoMessage = "";
                 ErrorMessage = "Failed to add book to database";
             }
         }
@@ -116,11 +131,14 @@ namespace bp2_client.ViewModels
 
                 if (response.IsSuccessStatusCode)
                 {
+                    ErrorMessage = "";
+                    InfoMessage = "Deleted book";
                     LoadBooks();
                 }
             }
             catch (HttpRequestException)
             {
+                InfoMessage = "";
                 ErrorMessage = "Failed to remove todo";
             }
         }
