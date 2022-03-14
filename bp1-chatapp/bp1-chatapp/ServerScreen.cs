@@ -95,13 +95,12 @@ namespace bp1_chatapp
 
                     if (message.Length > 0)
                     {
-                        if (message.ToString().Contains("--"))
-                        {
-                            char[] delimiter = "--".ToCharArray();
-                            string[] msgArray = message.ToString().Split(delimiter);
+                        if (message.ToString().StartsWith("--u"))
+                        {   
+                            message.Remove(0, 3);
 
-                            chatBox.Items.Add(msgArray[2] + ": " + msgArray[0]);
-                            await SendMessages(msgArray[2] + ": " + msgArray[0]);
+                            chatBox.Items.Add(message);
+                            await SendMessages(message.ToString());
                         }
                         else
                         {

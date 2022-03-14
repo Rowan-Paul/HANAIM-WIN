@@ -165,7 +165,7 @@ namespace bp1_chatapp
          */
         private void sendButton_Click(object sender, EventArgs e)
         {
-            SendMessage(messagesInput.Text + "--" + usernameInput.Text);
+            SendMessage("--u" + usernameInput.Text + ": " + messagesInput.Text);
         }
 
         /*
