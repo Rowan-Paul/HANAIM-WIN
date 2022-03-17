@@ -15,14 +15,14 @@
           ScrollViewer.CanContentScroll="True"
           ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ItemsControl ItemsSource="{Binding BooksCollection}" Height="410">
+        <ItemsControl ItemsSource="{Binding BooksCollection}" MinHeight="410">
             <ItemsControl.Template>
                 <ControlTemplate>
                     <ScrollViewer x:Name="ScrollViewer" Padding="10">
