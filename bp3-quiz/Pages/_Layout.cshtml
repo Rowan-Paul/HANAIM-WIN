@@ -49,22 +49,11 @@
   const auth = firebase.auth();
   const provider = new firebase.auth.GoogleAuthProvider();
 
-  window.signIn = () => {
-      auth.signInWithPopup(provider)
-  };
+  window.signIn = () =>  auth.signInWithPopup(provider).then((response) =>   response.user.displayName);
  
   auth.onAuthStateChanged(user => {
       console.log(user)
   });
-</script>
-
-<script>
-  window.updateMessageCaller = (dotNetHelper) => {
-    auth.signInWithPopup(provider).then(() => {
-        dotNetHelper.invokeMethodAsync('bp3-quiz', 'UpdateMessageCaller');
-        dotNetHelper.dispose();
-    })
-  }
 </script>
 
 </body>
