@@ -3,16 +3,16 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:9453",
+      "applicationUrl": "http://localhost:41252",
       "sslPort": 0
     }
   },
   "profiles": {
-    "bp3-quiz": {
+    "bp3-firebase": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5273",
+      "applicationUrl": "http://localhost:5162",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
