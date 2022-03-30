@@ -5,7 +5,7 @@
 
 <h1>Welcome</h1>
 
-@if(@_username.Length < 1)
+@if (_username.Length < 1)
 {
     <button @onclick="SignIn" class="btn btn-primary">Sign in with Google</button>
 }
