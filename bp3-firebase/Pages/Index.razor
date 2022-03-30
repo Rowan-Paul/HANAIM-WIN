@@ -1,4 +1,5 @@
 ﻿@page "/"
+@implements IDisposable
 @inject IJSRuntime JS
 
 <PageTitle>Home</PageTitle>
@@ -12,14 +13,38 @@
 else
 {
     <p>Signed in as @_username</p>
+    <button class="btn btn-success">Start quiz</button>
 }
 
 @code
 {
     private string _username = "";
+    private DotNetObjectReference<Index> dotNetHelper;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            dotNetHelper = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("setDotNetHelper", 
+                dotNetHelper);
+        }
+    }
+    
+    [JSInvokable]
+    public void SetUsername(string value)
+    {
+        _username = value;
+        StateHasChanged();
+    }
 
     private async Task SignIn()
     {
         _username = new string(await JS.InvokeAsync<string>("signIn"));
+    }
+    
+    public void Dispose()
+    {
+        dotNetHelper?.Dispose();
     }
 }
