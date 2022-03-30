@@ -6,19 +6,27 @@
 
 <h1>Welcome</h1>
 
-@if (_username.Length < 1)
+@if (_loading)
 {
-    <button @onclick="SignIn" class="btn btn-primary">Sign in with Google</button>
+    <p>Loading...</p>
 }
 else
 {
-    <p>Signed in as @_username</p>
-    <button class="btn btn-success">Start quiz</button>
+    @if (_username.Length < 1)
+    {
+        <button @onclick="SignIn" class="btn btn-primary">Sign in with Google</button>
+    }
+    else
+    {
+        <p>Signed in as @_username</p>
+        <button class="btn btn-success">Start quiz</button>
+    }
 }
 
 @code
 {
     private string _username = "";
+    private bool _loading = true;
     private DotNetObjectReference<Index> dotNetHelper;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -26,15 +34,16 @@ else
         if (firstRender)
         {
             dotNetHelper = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("setDotNetHelper", 
+            await JS.InvokeVoidAsync("setDotNetHelper",
                 dotNetHelper);
         }
     }
-    
+
     [JSInvokable]
     public void SetUsername(string value)
     {
         _username = value;
+        _loading = false;
         StateHasChanged();
     }
 
@@ -42,7 +51,7 @@ else
     {
         _username = new string(await JS.InvokeAsync<string>("signIn"));
     }
-    
+
     public void Dispose()
     {
         dotNetHelper?.Dispose();
