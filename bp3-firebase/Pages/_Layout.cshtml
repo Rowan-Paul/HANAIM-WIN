@@ -54,7 +54,9 @@
       
       auth.onAuthStateChanged(async (user) => {
           if (user) {
-            await dotNetHelper.invokeMethodAsync('SetUsername',"Rowan");
+            await dotNetHelper.invokeMethodAsync('SetUsername',user.displayName);
+          } else {
+            await dotNetHelper.invokeMethodAsync('SetUsername',"");
           }
       });
       
