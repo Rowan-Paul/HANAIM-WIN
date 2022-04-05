@@ -1,0 +1,68 @@
+﻿@page "/quiz"
+<h3>Quiz</h3>
+
+@if (Questions.Count == CurrentQ)
+{
+    <p>You had @amountCorrect/@Questions.Count questions correct!</p>
+}
+else if (Questions.Count > 0)
+{
+    <p class="text-danger">@Status</p>
+    <p>@Questions[CurrentQ].GetQuestion</p>
+    <input id="answer" @bind="Answer"/>
+    <button @onclick="SubmitAnswer">Submit</button>
+
+    <button class="btn d-block btn-secondary mt-4" @onclick="SkipQuestion">Skip question</button>
+}
+
+@code {
+    private int CurrentQ;
+    private List<Question>? Questions { get; } = new();
+    private string? Answer;
+    private int amountCorrect;
+    private string Status = "";
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Question q1 = new("In which art gallery is the Mona Lisa kept?", "The Louvre");
+            Question q2 = new("What is the busiest single-runway airport in the world?", "London Gatwick");
+            Question q3 = new("Anthony Stark is the alter-ego of which super-hero?", "Iron Man");
+            Question q4 = new("Which is the largest country in the world with only one time zone?", "China");
+            Question q5 = new("Olympus Mons is the largest volcano known to man. Where is it?", "Mars");
+
+            Questions.Add(q1);
+            Questions.Add(q2);
+            Questions.Add(q3);
+            Questions.Add(q4);
+            Questions.Add(q5);
+
+            StateHasChanged();
+        }
+    }
+
+    private void SubmitAnswer()
+    {
+        if (Answer == Questions[CurrentQ].GetAnswer)
+        {
+            Status = "";
+            Answer = "";
+            amountCorrect++;
+            CurrentQ++;
+        }
+        else
+        {
+            Status = "Wrong answer";
+            CurrentQ++;
+        }
+    }
+
+    private void SkipQuestion()
+    {
+        Status = "";
+        Answer = "";
+        CurrentQ++;
+    }
+
+}

@@ -1,6 +1,7 @@
 ﻿@page "/"
 @implements IDisposable
 @inject IJSRuntime JS
+@inject NavigationManager NavManager
 
 <PageTitle>Home</PageTitle>
 
@@ -13,7 +14,7 @@
 else
 {
     <p>Signed in as @_username</p>
-    <button class="btn btn-success">Start quiz</button>
+    <button @onclick="StartQuiz" class="btn btn-success">Start quiz</button>
 }
 
 @code
@@ -26,11 +27,11 @@ else
         if (firstRender)
         {
             dotNetHelper = DotNetObjectReference.Create(this);
-            await JS.InvokeVoidAsync("setDotNetHelper", 
+            await JS.InvokeVoidAsync("setDotNetHelper",
                 dotNetHelper);
         }
     }
-    
+
     [JSInvokable]
     public void SetUsername(string value)
     {
@@ -42,9 +43,14 @@ else
     {
         _username = new string(await JS.InvokeAsync<string>("signIn"));
     }
-    
+
     public void Dispose()
     {
         dotNetHelper?.Dispose();
+    }
+
+    private void StartQuiz()
+    {
+        NavManager.NavigateTo("/quiz");
     }
 }
