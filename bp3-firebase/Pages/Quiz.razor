@@ -1,4 +1,5 @@
-﻿@page "/quiz"
+﻿@inject IJSRuntime JS
+@page "/quiz"
 <h3>Quiz</h3>
 
 @if (Questions.Count == CurrentQ)
@@ -17,27 +18,29 @@ else if (Questions.Count > 0)
 
 @code {
     private int CurrentQ;
-    private List<Question>? Questions { get; } = new();
+    private List<Question>? Questions { get; set; } = new();
     private string? Answer;
     private int amountCorrect;
     private string Status = "";
 
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            Question q1 = new("In which art gallery is the Mona Lisa kept?", "The Louvre");
-            Question q2 = new("What is the busiest single-runway airport in the world?", "London Gatwick");
-            Question q3 = new("Anthony Stark is the alter-ego of which super-hero?", "Iron Man");
-            Question q4 = new("Which is the largest country in the world with only one time zone?", "China");
-            Question q5 = new("Olympus Mons is the largest volcano known to man. Where is it?", "Mars");
+            var response = await JS.InvokeAsync<dynamic>("getQuestions");
+            string stringified = response.ToString();
+            string[] split = stringified.Split(',');
 
-            Questions.Add(q1);
-            Questions.Add(q2);
-            Questions.Add(q3);
-            Questions.Add(q4);
-            Questions.Add(q5);
+            var responseAnswer = await JS.InvokeAsync<dynamic>("getAnswers");
+            string stringifiedAnswer = responseAnswer.ToString();
+            string[] splitAnswer = stringifiedAnswer.Split(',');
 
+            for (var i = 0; i < splitAnswer.Length; i++)
+            {
+                Question q = new(split[i].Replace("\"", "").Replace("[", "").Replace("]", ""), 
+                    splitAnswer[i].Replace("\"", "").Replace("[", "").Replace("]", ""));
+                Questions.Add(q);
+            }
             StateHasChanged();
         }
     }
@@ -63,5 +66,4 @@ else if (Questions.Count > 0)
         Answer = "";
         CurrentQ++;
     }
-
 }

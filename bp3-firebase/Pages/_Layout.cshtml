@@ -65,5 +65,32 @@
       }
 </script>
 
+
+<script>
+    const db = firebase.firestore();
+
+    window.getQuestions = async () => {
+        const snapshot = await db.collection('questions').get();
+        let questions = []
+            
+        snapshot.forEach((doc) => {
+            questions.push(doc.data().question)
+        });
+        
+        return questions
+    }
+    
+    window.getAnswers = async () => {
+        const snapshot = await db.collection('questions').get();
+        let answers = []
+            
+        snapshot.forEach((doc) => {
+            answers.push(doc.data().answer)
+        });
+        
+        return answers
+    }
+</script>
+
 </body>
 </html>
